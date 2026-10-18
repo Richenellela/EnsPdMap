@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:EnsPdMap.Controls"
+             x:Class="EnsPdMap.Pages.HorsLignePage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Bg}">
+
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="24,22,24,24" Spacing="0">
+
+                <Label Text="Espace hors-ligne &amp; éco" FontSize="28" FontAttributes="Bold" />
+                <Label Text="Vos démarches restent accessibles sans réseau." FontSize="16"
+                       TextColor="{StaticResource Muted}" Margin="0,6,0,20" />
+
+                <!-- Économies -->
+                <Border BackgroundColor="{StaticResource Green}" StrokeThickness="0" StrokeShape="RoundRectangle 22"
+                        Padding="22">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="18">
+                        <Border WidthRequest="68" HeightRequest="68" BackgroundColor="#3F7A5A" StrokeThickness="0"
+                                StrokeShape="RoundRectangle 16" VerticalOptions="Center">
+                            <c:Icon Glyph="leaf" IconColor="White" Size="34" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                            <Label Text="18,4 Mo économisés" TextColor="White" FontSize="24" FontAttributes="Bold" />
+                            <Label Text="Grâce au cache local ce semestre" TextColor="#CFE5D8" FontSize="15" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Mode ultra-éco -->
+                <Border Style="{StaticResource Card}" Padding="18,0" HeightRequest="68" Margin="0,16,0,0">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                        <c:Icon Glyph="bolt" IconColor="{StaticResource GoldDark}" Size="24" VerticalOptions="Center" />
+                        <Label Grid.Column="1" Text="Mode ultra-éco" FontSize="18" FontAttributes="Bold"
+                               VerticalOptions="Center" />
+                        <Switch x:Name="EcoSwitch" Grid.Column="2" IsToggled="True" OnColor="{StaticResource Green}"
+                                ThumbColor="White" VerticalOptions="Center" Toggled="OnEcoToggled" />
+                    </Grid>
+                </Border>
+                <Label x:Name="EcoDesc" Text="Désactive les images et réduit les animations sans 4G." FontSize="14"
+                       TextColor="{StaticResource Muted}" Margin="0,10,0,0" />
+
+                <!-- Documents -->
+                <Label Text="Documents essentiels disponibles" FontSize="16" FontAttributes="Bold"
+                       TextColor="{StaticResource Muted}" Margin="0,26,0,6" />
+                <VerticalStackLayout x:Name="DocList" Spacing="0" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <c:BottomNav Grid.Row="1" Active="horsligne" />
+    </Grid>
+</ContentPage>

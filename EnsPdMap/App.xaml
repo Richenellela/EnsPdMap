@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnsPdMap.App">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="Navy">#0A2342</Color>
+            <Color x:Key="Gold">#C08B1C</Color>
+            <Color x:Key="GoldDark">#7A5A10</Color>
+            <Color x:Key="Sand">#F5E6C8</Color>
+            <Color x:Key="Green">#14603A</Color>
+            <Color x:Key="GreenSoft">#DCEBE2</Color>
+            <Color x:Key="Bg">#F7F8FA</Color>
+            <Color x:Key="Ink">#0F172A</Color>
+            <Color x:Key="Muted">#5B6778</Color>
+            <Color x:Key="Line">#D9DEE8</Color>
+            <Color x:Key="Red">#B42318</Color>
+            <Color x:Key="RedSoft">#FBEDEC</Color>
+            <Color x:Key="MapBg">#EDF2F6</Color>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource Muted}" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+
+            <Style x:Key="FieldBox" TargetType="Border">
+                <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+                <Setter Property="Stroke" Value="{StaticResource Line}" />
+                <Setter Property="StrokeThickness" Value="1.5" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="Padding" Value="16,0" />
+                <Setter Property="HeightRequest" Value="58" />
+            </Style>
+
+            <Style x:Key="Card" TargetType="Border">
+                <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+                <Setter Property="Stroke" Value="{StaticResource Line}" />
+                <Setter Property="StrokeThickness" Value="1.5" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="Padding" Value="14" />
+            </Style>
+
+            <Style x:Key="PrimaryButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Navy}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="17" />
+                <Setter Property="CornerRadius" Value="16" />
+                <Setter Property="HeightRequest" Value="58" />
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

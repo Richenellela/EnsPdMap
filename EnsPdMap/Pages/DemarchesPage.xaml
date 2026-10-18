@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:EnsPdMap.Controls"
+             x:Class="EnsPdMap.Pages.DemarchesPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Bg}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="22,16,22,24" Spacing="0">
+            <Border WidthRequest="52" HeightRequest="52" StrokeShape="RoundRectangle 26" HorizontalOptions="Start"
+                    Stroke="{StaticResource Line}" StrokeThickness="1.5" BackgroundColor="White">
+                <c:Icon Glyph="back" IconColor="{StaticResource Ink}" Size="22" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBack" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Label Text="Démarches" FontSize="30" FontAttributes="Bold" Margin="0,18,0,4" />
+            <Label Text="Toutes les procédures administratives de l'ENSPD." FontSize="15"
+                   TextColor="{StaticResource Muted}" Margin="0,0,0,10" />
+
+            <VerticalStackLayout x:Name="ProcList" Spacing="0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

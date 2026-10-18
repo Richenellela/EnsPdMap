@@ -1,0 +1,16 @@
+EnsPdMap - front-end .NET MAUI (Android)
+
+OUVRIR DANS VISUAL STUDIO 2022
+1. Double-clic sur EnsPdMap.sln
+2. Dans la barre d'outils : choisir "Android Emulator" ou votre telephone (debogage USB active)
+3. F5
+
+LANCER SANS VISUAL STUDIO
+Double-clic sur lancer-EnsPdMap.bat puis option 4.
+
+PREREQUIS
+- Visual Studio 2022 17.12 ou plus recent avec la charge de travail
+  "Developpement d'applications mobiles avec .NET"
+- SDK .NET 9 (le .bat l'installe via winget si absent)
+
+Donnees (services, procedures, contacts) : fichier EnsPdMap\Models\Data.cs

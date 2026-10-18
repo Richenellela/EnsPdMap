@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:EnsPdMap.Controls"
+             x:Class="EnsPdMap.Pages.AnnuairePage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Bg}">
+
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="22,18,22,24" Spacing="0">
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Annuaire des services" FontSize="30" FontAttributes="Bold" VerticalOptions="Center" />
+                    <Border Grid.Column="1" WidthRequest="52" HeightRequest="52" StrokeShape="RoundRectangle 26"
+                            Stroke="{StaticResource Line}" StrokeThickness="1.5" BackgroundColor="White">
+                        <c:Icon Glyph="search" IconColor="{StaticResource Ink}" Size="22" />
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnToggleSearch" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </Grid>
+
+                <HorizontalStackLayout Spacing="8" Margin="0,8,0,0">
+                    <c:Icon Glyph="leaf" IconColor="{StaticResource Green}" Size="18" VerticalOptions="Center" />
+                    <Label Text="24 services disponibles hors ligne" FontSize="15" TextColor="{StaticResource Muted}"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <Border x:Name="SearchBox" Style="{StaticResource FieldBox}" Stroke="{StaticResource Navy}"
+                        HeightRequest="52" Margin="0,14,0,0" IsVisible="False">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <c:Icon Glyph="search" IconColor="{StaticResource Muted}" Size="20" VerticalOptions="Center" />
+                        <Entry x:Name="SearchEntry" Grid.Column="1" Placeholder="Rechercher un service…"
+                               TextChanged="OnQueryChanged" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Margin="0,16,0,0">
+                    <HorizontalStackLayout x:Name="FilterStack" Spacing="10" />
+                </ScrollView>
+
+                <VerticalStackLayout x:Name="ServiceList" Spacing="0" Margin="0,12,0,0" />
+
+                <Label x:Name="EmptyLabel" Text="Aucun service ne correspond à votre recherche."
+                       TextColor="{StaticResource Muted}" FontSize="15" IsVisible="False" Margin="0,24,0,0"
+                       HorizontalTextAlignment="Center" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <c:BottomNav Grid.Row="1" Active="annuaire" />
+    </Grid>
+</ContentPage>

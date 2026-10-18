@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:EnsPdMap.Controls"
+             x:Class="EnsPdMap.Pages.AccueilPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Bg}">
+
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="22,18,22,24" Spacing="0">
+
+                <!-- Salutation -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Spacing="2">
+                        <Label x:Name="DateLabel" FontSize="14" TextColor="{StaticResource Muted}" />
+                        <Label x:Name="HelloLabel" FontSize="30" FontAttributes="Bold" />
+                    </VerticalStackLayout>
+                    <Border Grid.Column="1" WidthRequest="54" HeightRequest="54" BackgroundColor="{StaticResource Navy}"
+                            StrokeThickness="0" StrokeShape="RoundRectangle 27" VerticalOptions="Start">
+                        <Label x:Name="InitialsLabel" TextColor="White" FontAttributes="Bold" FontSize="17"
+                               HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+
+                <!-- Recherche -->
+                <Border Style="{StaticResource FieldBox}" Stroke="{StaticResource Navy}" HeightRequest="52"
+                        Margin="0,18,0,0" StrokeShape="RoundRectangle 26">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <c:Icon Glyph="search" IconColor="{StaticResource Ink}" Size="22" VerticalOptions="Center" />
+                        <Entry x:Name="SearchEntry" Grid.Column="1" Placeholder="Un bureau, une démarche, une pièce…"
+                               ReturnType="Search" Completed="OnSearch" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- Accès rapides -->
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10" Margin="0,20,0,0">
+                    <Border Grid.Column="0" Style="{StaticResource Card}" Padding="4,14">
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <c:Icon Glyph="map" IconColor="{StaticResource Ink}" Size="26" />
+                            <Label Text="Plan" FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnQuick" CommandParameter="plan" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource Card}" Padding="4,14">
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <c:Icon Glyph="building" IconColor="{StaticResource Ink}" Size="26" />
+                            <Label Text="Annuaire" FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnQuick" CommandParameter="annuaire" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                    <Border Grid.Column="2" Style="{StaticResource Card}" Padding="4,14">
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <c:Icon Glyph="doc" IconColor="{StaticResource Ink}" Size="26" />
+                            <Label Text="Démarches" FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnQuick" CommandParameter="demarches" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                    <Border Grid.Column="3" Style="{StaticResource Card}" Padding="4,14">
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <c:Icon Glyph="wifioff" IconColor="{StaticResource Ink}" Size="26" />
+                            <Label Text="Hors ligne" FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnQuick" CommandParameter="horsligne" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </Grid>
+
+                <!-- Démarches de rentrée -->
+                <Border BackgroundColor="{StaticResource Navy}" StrokeThickness="0" StrokeShape="RoundRectangle 22"
+                        Padding="20" Margin="0,22,0,0">
+                    <VerticalStackLayout Spacing="0">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Démarches de rentrée" TextColor="White" FontSize="18" FontAttributes="Bold" />
+                            <Label Grid.Column="1" Text="2 / 5" TextColor="{StaticResource Gold}" FontSize="18"
+                                   FontAttributes="Bold" />
+                        </Grid>
+                        <c:Bar Progress="0.4" FillColor="{StaticResource Gold}" TrackColor="#3A4C66" Margin="0,14,0,10" />
+                        <Label Text="Prochaine étape : retrait de l'attestation" TextColor="#B8C2D3" FontSize="14" />
+                    </VerticalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnProgressCard" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!-- Démarches fréquentes -->
+                <Grid ColumnDefinitions="*,Auto" Margin="0,26,0,4">
+                    <Label Text="Démarches fréquentes" FontSize="22" FontAttributes="Bold" />
+                    <Label Grid.Column="1" Text="Tout voir" FontSize="15" FontAttributes="Bold"
+                           TextColor="{StaticResource Navy}" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSeeAll" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+                <VerticalStackLayout x:Name="FreqList" Spacing="0" />
+
+                <!-- Affluence -->
+                <Label Text="Affluence des guichets" FontSize="22" FontAttributes="Bold" Margin="0,22,0,12" />
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout x:Name="CrowdStack" Spacing="12" />
+                </ScrollView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <c:BottomNav Grid.Row="1" Active="accueil" />
+    </Grid>
+</ContentPage>

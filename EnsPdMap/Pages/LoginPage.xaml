@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:EnsPdMap.Controls"
+             x:Class="EnsPdMap.Pages.LoginPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Bg}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- En-tête sombre -->
+        <Grid Grid.Row="0" BackgroundColor="{StaticResource Navy}" HeightRequest="290">
+            <AbsoluteLayout>
+                <Border AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0.906,0.072,0.36,0.17"
+                        StrokeShape="RoundRectangle 12" Stroke="White" StrokeThickness="2" BackgroundColor="Transparent" />
+                <Border AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0.694,0.301,0.15,0.27"
+                        StrokeShape="RoundRectangle 12" Stroke="White" StrokeThickness="2" BackgroundColor="Transparent" />
+                <Border AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0.951,0.301,0.18,0.13"
+                        StrokeShape="RoundRectangle 12" Stroke="White" StrokeThickness="2" BackgroundColor="Transparent" />
+                <Border AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0.951,0.513,0.18,0.22"
+                        StrokeShape="RoundRectangle 12" Stroke="White" StrokeThickness="2" BackgroundColor="Transparent" />
+                <BoxView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0.556,0.273,0.012,0.45"
+                         Color="{StaticResource Gold}" />
+            </AbsoluteLayout>
+
+            <VerticalStackLayout Padding="24,22,24,0" Spacing="16">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                    <Border WidthRequest="56" HeightRequest="56" StrokeThickness="0" BackgroundColor="White"
+                            StrokeShape="RoundRectangle 14">
+                        <c:Icon Glyph="pin" IconColor="{StaticResource Gold}" Size="28" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                        <Label Text="ENSPD – UDO" TextColor="White" FontSize="20" FontAttributes="Bold" />
+                        <Label Text="EnsPdMap · Campus PK17" TextColor="#B8C2D3" FontSize="13" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Border BackgroundColor="{StaticResource Green}" StrokeThickness="0" StrokeShape="RoundRectangle 20"
+                        HorizontalOptions="Start" Padding="14,8">
+                    <HorizontalStackLayout Spacing="8">
+                        <c:Icon Glyph="leaf" IconColor="White" Size="16" VerticalOptions="Center" />
+                        <Label Text="Mode sobre · 0,4 Mo chargés" TextColor="White" FontSize="13"
+                               FontAttributes="Bold" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Label Text="Le bon bureau, du premier coup." TextColor="White" FontSize="32"
+                       FontAttributes="Bold" WidthRequest="300" HorizontalOptions="Start" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Formulaire -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="24,24,24,12" Spacing="0">
+
+                <Label Text="Connexion" FontSize="28" FontAttributes="Bold" />
+                <Label Text="Matricule ENSPD ou e-mail @univ-douala.cm" FontSize="15"
+                       TextColor="{StaticResource Muted}" Margin="0,4,0,18" />
+
+                <Label Text="Matricule ou e-mail" FontSize="15" FontAttributes="Bold" Margin="0,0,0,8" />
+                <Border x:Name="IdBox" Style="{StaticResource FieldBox}">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <c:Icon Glyph="mail" IconColor="{StaticResource Muted}" Size="22" VerticalOptions="Center" />
+                        <Entry x:Name="IdEntry" Grid.Column="1" Placeholder="Ex. 24G01622" Keyboard="Email"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <Label Text="Mot de passe" FontSize="15" FontAttributes="Bold" Margin="0,18,0,8" />
+                <Border x:Name="PwdBox" Style="{StaticResource FieldBox}" Stroke="{StaticResource Ink}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Entry x:Name="PwdEntry" Placeholder="8 caractères minimum" IsPassword="True"
+                               VerticalOptions="Center" />
+                        <Grid Grid.Column="1" WidthRequest="40" HeightRequest="40">
+                            <c:Icon x:Name="EyeIcon" Glyph="eye" IconColor="{StaticResource Muted}" Size="22" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnToggleEye" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Label x:Name="ErrorLabel" TextColor="{StaticResource Red}" FontSize="13" IsVisible="False"
+                       Margin="0,10,0,0" />
+
+                <Grid ColumnDefinitions="*,Auto" Margin="0,14,0,0">
+                    <HorizontalStackLayout VerticalOptions="Center" Spacing="2">
+                        <CheckBox x:Name="RememberCheck" Color="{StaticResource Navy}" />
+                        <Label Text="Se souvenir de moi" FontSize="15" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Label Grid.Column="1" Text="Mot de passe oublié ?" FontSize="15" FontAttributes="Bold"
+                           TextColor="{StaticResource Navy}" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnForgot" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+
+                <Button Text="Se connecter" Style="{StaticResource PrimaryButton}" Margin="0,18,0,0"
+                        Clicked="OnLogin" />
+
+                <Button Text="Continuer en tant que visiteur" BackgroundColor="Transparent"
+                        TextColor="{StaticResource Green}" FontAttributes="Bold" FontSize="16"
+                        Margin="0,6,0,0" Clicked="OnVisitor" />
+
+                <Label HorizontalTextAlignment="Center" Margin="0,28,0,16" FontSize="15">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Pas encore de compte ? " TextColor="{StaticResource Muted}" />
+                            <Span Text="Créer un compte" FontAttributes="Bold" TextColor="{StaticResource Navy}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCreateAccount" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
