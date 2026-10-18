@@ -1,4 +1,9 @@
+bin/
+obj/
 .vs/
-**/bin/
-**/obj/
-.vscode/
+*.user
+*.suo
+*.db
+*.db-shm
+*.db-wal
+*.log

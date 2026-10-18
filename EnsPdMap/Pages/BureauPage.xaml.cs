@@ -1,3 +1,4 @@
+using EnsPdMap.Helpers;
 using EnsPdMap.Controls;
 using EnsPdMap.Models;
 using Microsoft.Maui.ApplicationModel.Communication;
@@ -11,10 +12,14 @@ public partial class BureauPage : ContentPage
 {
     Service _s;
 
+    string _itemId;
+
     public string ItemId
     {
+        get { return _itemId; }
         set
         {
+            _itemId = value;
             _s = Data.GetService(value);
             Load();
         }
@@ -130,7 +135,7 @@ public partial class BureauPage : ContentPage
 
     async void OnBack(object sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync("..");
+        await Nav.GoAsync("..");
     }
 
     async void OnCall(object sender, TappedEventArgs e)
@@ -168,6 +173,6 @@ public partial class BureauPage : ContentPage
     async void OnRoute(object sender, TappedEventArgs e)
     {
         AppState.PlanTarget = _s.Id;
-        await Shell.Current.GoToAsync("//plan");
+        await Nav.GoAsync("//plan");
     }
 }

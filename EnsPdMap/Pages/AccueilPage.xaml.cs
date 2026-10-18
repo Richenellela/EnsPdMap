@@ -79,7 +79,7 @@ public partial class AccueilPage : ContentPage
             string id = s.Id;
             card.GestureRecognizers.Add(new TapGestureRecognizer
             {
-                Command = new Command(async () => await Shell.Current.GoToAsync("bureau?id=" + id))
+                Command = new Command(async () => await Nav.GoAsync("bureau?id=" + id))
             });
             CrowdStack.Children.Add(card);
         }
@@ -89,25 +89,25 @@ public partial class AccueilPage : ContentPage
     {
         AppState.PendingQuery = (SearchEntry.Text ?? "").Trim();
         SearchEntry.Text = "";
-        await Shell.Current.GoToAsync("//annuaire");
+        await Nav.GoAsync("//annuaire");
     }
 
     async void OnQuick(object sender, TappedEventArgs e)
     {
         string target = e.Parameter as string ?? "plan";
         if (target == "demarches")
-            await Shell.Current.GoToAsync("demarches");
+            await Nav.GoAsync("demarches");
         else
-            await Shell.Current.GoToAsync("//" + target);
+            await Nav.GoAsync("//" + target);
     }
 
     async void OnSeeAll(object sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync("demarches");
+        await Nav.GoAsync("demarches");
     }
 
     async void OnProgressCard(object sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync("procedure?id=attestation");
+        await Nav.GoAsync("procedure?id=attestation");
     }
 }

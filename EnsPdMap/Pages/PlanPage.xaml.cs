@@ -1,10 +1,10 @@
 using EnsPdMap.Controls;
 using EnsPdMap.Helpers;
 using EnsPdMap.Models;
+using Microsoft.Maui.Controls; // AbsoluteLayout, AbsoluteLayout.SetLayoutBounds, ...
+using Microsoft.Maui.Layouts;   // Ajouté pour AbsoluteLayoutFlags
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Graphics;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Layouts;
 
 namespace EnsPdMap.Pages;
 
@@ -43,6 +43,11 @@ public partial class PlanPage : ContentPage
         new[] { 0.58, 0.34, 0.42, 0.11 }
     };
 
+    bool _expanded;
+    bool _animating;
+    double _collapsed = 230;
+    double _lastPanY;
+
     const double EntranceX = 0.50;
     const double EntranceY = 0.62;
 
@@ -51,6 +56,57 @@ public partial class PlanPage : ContentPage
         InitializeComponent();
         BuildMap();
         Select("sco");
+        Sheet.SizeChanged += OnSheetSizeChanged;
+    }
+
+    void OnSheetSizeChanged(object sender, EventArgs e)
+    {
+        if (ExtraBox.Height > 0)
+        {
+            _collapsed = ExtraBox.Height + ExtraBox.Margin.Top;
+            if (!_expanded && !_animating)
+                Sheet.TranslationY = _collapsed;
+        }
+    }
+
+    async Task SetExpanded(bool value)
+    {
+        try
+        {
+            _expanded = value;
+            _animating = true;
+            await Sheet.TranslateTo(0, value ? 0 : _collapsed, 260, Easing.CubicOut);
+        }
+        catch (Exception ex)
+        {
+            CrashLog.Write(ex, "Fiche");
+        }
+        finally
+        {
+            _animating = false;
+        }
+    }
+
+    async void OnSheetHandle(object sender, TappedEventArgs e)
+    {
+        await SetExpanded(!_expanded);
+    }
+
+    async void OnSheetPan(object sender, PanUpdatedEventArgs e)
+    {
+        if (e.StatusType == GestureStatus.Started)
+        {
+            _lastPanY = 0;
+        }
+        else if (e.StatusType == GestureStatus.Running)
+        {
+            _lastPanY = e.TotalY;
+        }
+        else if (e.StatusType == GestureStatus.Completed)
+        {
+            if (_lastPanY < -20) await SetExpanded(true);
+            else if (_lastPanY > 20) await SetExpanded(false);
+        }
     }
 
     protected override void OnAppearing()
@@ -213,6 +269,13 @@ public partial class PlanPage : ContentPage
         StatusLabel.Text = _sel.Status;
         StatusLabel.TextColor = open ? Pal.Green : Pal.Red;
         StatusBadge.BackgroundColor = open ? Pal.GreenSoft : Pal.RedSoft;
+
+        SheetQueue.Text = _sel.Queue;
+        SheetQueue.TextColor = open ? Pal.GoldDark : Pal.Red;
+        SheetQueueBox.BackgroundColor = open ? Pal.Sand : Pal.RedSoft;
+        SheetHours.Text = _sel.Hours.Count > 0 ? _sel.Hours[0][1] : "—";
+        SheetPhone.Text = _sel.Phone;
+        SheetMail.Text = _sel.Email;
     }
 
     async void OnSearch(object sender, EventArgs e)
@@ -264,6 +327,6 @@ public partial class PlanPage : ContentPage
 
     async void OnSheet(object sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync("bureau?id=" + _sel.Id);
+        await Nav.GoAsync("bureau?id=" + _sel.Id);
     }
 }

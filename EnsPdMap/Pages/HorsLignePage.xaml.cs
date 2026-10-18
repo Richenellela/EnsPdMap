@@ -1,3 +1,4 @@
+using EnsPdMap.Helpers;
 using EnsPdMap.Controls;
 using EnsPdMap.Models;
 using Microsoft.Maui.Graphics;
@@ -26,7 +27,7 @@ public partial class HorsLignePage : ContentPage
         row.Add(texts, 1, 0);
         row.GestureRecognizers.Add(new TapGestureRecognizer
         {
-            Command = new Command(async () => await Shell.Current.GoToAsync(route))
+            Command = new Command(async () => await Nav.GoAsync(route))
         });
         DocList.Children.Add(row);
         if (divider) DocList.Children.Add(new BoxView { HeightRequest = 1, Color = Pal.Line });

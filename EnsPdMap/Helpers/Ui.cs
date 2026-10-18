@@ -67,7 +67,7 @@ public static class Ui
         string id = p.Id;
         row.GestureRecognizers.Add(new TapGestureRecognizer
         {
-            Command = new Command(async () => await Shell.Current.GoToAsync("procedure?id=" + id))
+            Command = new Command(async () => await Nav.GoAsync("procedure?id=" + id))
         });
 
         var box = new VerticalStackLayout { Spacing = 0 };

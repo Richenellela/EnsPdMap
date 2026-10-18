@@ -1,16 +1,21 @@
-EnsPdMap - front-end .NET MAUI (Android)
+EnsPdMap
 
-OUVRIR DANS VISUAL STUDIO 2022
-1. Double-clic sur EnsPdMap.sln
-2. Dans la barre d'outils : choisir "Android Emulator" ou votre telephone (debogage USB active)
-3. F5
+PHASE A/B - Application mobile (.NET MAUI, Android)
+1. Double-clic sur EnsPdMap.sln dans Visual Studio 2022 (17.12 ou plus)
+2. Choisir "Android Emulator" ou le telephone (debogage USB), puis F5
+   ou : double-clic sur lancer-EnsPdMap.bat, option 4.
+- Si l'appli rencontre une erreur, elle affiche un message au lieu de se fermer ;
+  une erreur fatale est affichee au demarrage suivant (ecran de connexion).
 
-LANCER SANS VISUAL STUDIO
-Double-clic sur lancer-EnsPdMap.bat puis option 4.
+PHASE C - API (ASP.NET Core 9 + SQLite + JWT)
+- Double-clic sur run-api.bat (ou ouvrir EnsPdMap.Api\EnsPdMap.Api.csproj)
+- Tests : ouvrir EnsPdMap.Api\EnsPdMap.Api.http dans Visual Studio et cliquer "Send request"
+- Base creee automatiquement (enspdmap.db) avec les services et demarches de depart.
 
-PREREQUIS
-- Visual Studio 2022 17.12 ou plus recent avec la charge de travail
-  "Developpement d'applications mobiles avec .NET"
-- SDK .NET 9 (le .bat l'installe via winget si absent)
-
-Donnees (services, procedures, contacts) : fichier EnsPdMap\Models\Data.cs
+Endpoints
+  GET  /api/health
+  GET  /api/services?category=&q=        GET /api/services/{id}
+  GET  /api/procedures                   GET /api/procedures/{id}
+  GET  /api/search?q=
+  POST /api/auth/register                POST /api/auth/login
+  GET  /api/me                           (JWT requis)

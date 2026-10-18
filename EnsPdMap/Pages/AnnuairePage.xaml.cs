@@ -122,7 +122,7 @@ public partial class AnnuairePage : ContentPage
         string id = s.Id;
         row.GestureRecognizers.Add(new TapGestureRecognizer
         {
-            Command = new Command(async () => await Shell.Current.GoToAsync("bureau?id=" + id))
+            Command = new Command(async () => await Nav.GoAsync("bureau?id=" + id))
         });
         return row;
     }

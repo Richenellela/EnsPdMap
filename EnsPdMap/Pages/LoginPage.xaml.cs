@@ -1,3 +1,4 @@
+using EnsPdMap.Helpers;
 using EnsPdMap.Models;
 
 namespace EnsPdMap.Pages;
@@ -9,6 +10,14 @@ public partial class LoginPage : ContentPage
     public LoginPage()
     {
         InitializeComponent();
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        string log = CrashLog.ReadAndClear();
+        if (!string.IsNullOrEmpty(log))
+            await DisplayAlert("Dernière erreur détectée", log.Length > 1500 ? log.Substring(0, 1500) : log, "OK");
     }
 
     void OnToggleEye(object sender, TappedEventArgs e)
@@ -49,17 +58,17 @@ public partial class LoginPage : ContentPage
 
         ErrorLabel.IsVisible = false;
         AppState.SignInStudent();
-        await Shell.Current.GoToAsync("//accueil");
+        await Nav.GoAsync("//accueil");
     }
 
     async void OnVisitor(object sender, EventArgs e)
     {
         AppState.SignInVisitor();
-        await Shell.Current.GoToAsync("//accueil");
+        await Nav.GoAsync("//accueil");
     }
 
     async void OnCreateAccount(object sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync("//inscription");
+        await Nav.GoAsync("//inscription");
     }
 }

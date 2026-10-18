@@ -1,0 +1,48 @@
+@host = http://localhost:5080
+
+### Santé de l'API
+GET {{host}}/api/health
+
+### Liste des services
+GET {{host}}/api/services
+
+### Services filtrés (catégorie + recherche)
+GET {{host}}/api/services?category=Scolarité&q=attestation
+
+### Détail d'un service
+GET {{host}}/api/services/sco
+
+### Démarches
+GET {{host}}/api/procedures
+
+### Détail d'une démarche
+GET {{host}}/api/procedures/attestation
+
+### Recherche globale
+GET {{host}}/api/search?q=quitus
+
+### Inscription
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "MBADZO TAYO Richenelle",
+  "matricule": "24G01654",
+  "email": "richenelle.mbadzo@univ-douala.cm",
+  "filiere": "GI",
+  "niveau": "N5",
+  "password": "MotDePasse123!"
+}
+
+### Connexion (matricule ou e-mail)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "identifier": "24G01654",
+  "password": "MotDePasse123!"
+}
+
+### Profil connecté (collez le token reçu ci-dessus)
+GET {{host}}/api/me
+Authorization: Bearer COLLEZ_LE_TOKEN_ICI

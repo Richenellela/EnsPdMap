@@ -14,6 +14,6 @@ public partial class DemarchesPage : ContentPage
 
     async void OnBack(object sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync("..");
+        await Nav.GoAsync("..");
     }
 }

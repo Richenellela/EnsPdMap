@@ -1,3 +1,4 @@
+using EnsPdMap.Helpers;
 using EnsPdMap.Controls;
 using EnsPdMap.Models;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
@@ -13,10 +14,14 @@ public partial class ProcedurePage : ContentPage
     int _current;
     bool _bookmarked = true;
 
+    string _itemId;
+
     public string ItemId
     {
+        get { return _itemId; }
         set
         {
+            _itemId = value;
             _p = Data.GetProcedure(value);
             _current = 0;
             Load();
@@ -160,7 +165,7 @@ public partial class ProcedurePage : ContentPage
 
     async void OnBack(object sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync("..");
+        await Nav.GoAsync("..");
     }
 
     async void OnShare(object sender, TappedEventArgs e)
@@ -198,6 +203,6 @@ public partial class ProcedurePage : ContentPage
     async void OnLocate(object sender, TappedEventArgs e)
     {
         AppState.PlanTarget = _p.ServiceId;
-        await Shell.Current.GoToAsync("//plan");
+        await Nav.GoAsync("//plan");
     }
 }

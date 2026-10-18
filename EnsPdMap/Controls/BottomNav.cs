@@ -1,3 +1,4 @@
+using EnsPdMap.Helpers;
 using EnsPdMap.Models;
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Graphics;
@@ -74,7 +75,7 @@ public class BottomNav : ContentView
             {
                 Command = new Command(async () =>
                 {
-                    if (key != Active) await Shell.Current.GoToAsync("//" + key);
+                    if (key != Active) await Nav.GoAsync("//" + key);
                 })
             });
             grid.Add(cell, i, 0);

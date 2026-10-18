@@ -134,7 +134,7 @@ public partial class InscriptionPage : ContentPage
 
     async void OnBack(object sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync("//login");
+        await Nav.GoAsync("//login");
     }
 
     void ShowError(string message)
@@ -157,6 +157,6 @@ public partial class InscriptionPage : ContentPage
         ErrorLabel.IsVisible = false;
         AppState.Register(name, _filiere, _niveau);
         await DisplayAlert("Compte créé", "Bienvenue sur EnsPdMap, " + AppState.FirstName + " !", "Continuer");
-        await Shell.Current.GoToAsync("//accueil");
+        await Nav.GoAsync("//accueil");
     }
 }
