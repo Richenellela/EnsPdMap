@@ -62,7 +62,7 @@
                 <Border Style="{StaticResource Card}" Margin="0,16,0,0" Padding="16,0" HeightRequest="60">
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
                         <c:Icon Glyph="download" IconColor="{StaticResource Ink}" Size="22" VerticalOptions="Center" />
-                        <Label Grid.Column="1" Text="Formulaire PDF compact" FontSize="16" FontAttributes="Bold"
+                        <Label Grid.Column="1" Text="Fiche PDF de la démarche" FontSize="16" FontAttributes="Bold"
                                VerticalOptions="Center" />
                         <Label x:Name="FormSizeLabel" Grid.Column="2" FontSize="14" TextColor="{StaticResource Muted}"
                                VerticalOptions="Center" />
@@ -93,7 +93,7 @@
             <Border BackgroundColor="{StaticResource Navy}" StrokeThickness="0" StrokeShape="RoundRectangle 16"
                     HeightRequest="58">
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                    <c:Icon Glyph="nav" IconColor="White" Size="20" VerticalOptions="Center" />
+                    <c:Icon x:Name="LocateIcon" Glyph="nav" IconColor="White" Size="20" VerticalOptions="Center" />
                     <Label x:Name="LocateLabel" TextColor="White" FontAttributes="Bold" FontSize="17"
                            VerticalOptions="Center" />
                 </HorizontalStackLayout>

@@ -57,14 +57,58 @@ public partial class LoginPage : ContentPage
         }
 
         ErrorLabel.IsVisible = false;
-        AppState.SignInStudent();
-        await Nav.GoAsync("//accueil");
+        SetBusy(true);
+        try
+        {
+            var result = await ApiClient.LoginAsync(id, pwd);
+            if (result.Ok)
+            {
+                await ApiClient.SyncCatalogAsync();
+                await Nav.GoAsync("//accueil");
+                return;
+            }
+
+            if (result.NetworkError)
+            {
+                bool offline = await DisplayAlert("Serveur injoignable",
+                    "Impossible de joindre l'API (" + ApiClient.BaseUrl + "). Continuer en mode hors connexion ?",
+                    "Continuer", "Annuler");
+                if (offline)
+                {
+                    AppState.SignInStudent();
+                    await Nav.GoAsync("//accueil");
+                }
+                return;
+            }
+
+            ShowError(result.Message);
+        }
+        finally
+        {
+            SetBusy(false);
+        }
+    }
+
+    void SetBusy(bool busy)
+    {
+        LoginButton.IsEnabled = !busy;
+        VisitorButton.IsEnabled = !busy;
+        LoginButton.Text = busy ? "Connexion…" : "Se connecter";
     }
 
     async void OnVisitor(object sender, EventArgs e)
     {
-        AppState.SignInVisitor();
-        await Nav.GoAsync("//accueil");
+        SetBusy(true);
+        try
+        {
+            AppState.SignInVisitor();
+            await ApiClient.SyncCatalogAsync(3);
+            await Nav.GoAsync("//accueil");
+        }
+        finally
+        {
+            SetBusy(false);
+        }
     }
 
     async void OnCreateAccount(object sender, TappedEventArgs e)

@@ -26,6 +26,9 @@ public class Procedure
     public string Cost { get; set; } = "";
     public string Office { get; set; } = "";
     public string DoorNumber { get; set; } = "";
+    public string BadgeTop { get; set; } = "";
+    public string BadgeMain { get; set; } = "";
+    public string FicheFile { get; set; } = "";
     public string ServiceId { get; set; } = "";
     public string FormSize { get; set; } = "";
     public string LocateLabel { get; set; } = "";
@@ -34,7 +37,11 @@ public class Procedure
 
     public string Summary
     {
-        get { return Pieces.Count + " pièces · " + Delay; }
+        get
+        {
+            string pieces = Pieces.Count + (Pieces.Count > 1 ? " pièces" : " pièce");
+            return string.IsNullOrEmpty(Delay) ? pieces : pieces + " · " + Delay;
+        }
     }
 }
 
@@ -118,25 +125,6 @@ public static class Data
         },
         new Service
         {
-            Id = "cai", Code = "CAI", Name = "Caisse & Quitus", Short = "Caisse",
-            SheetTitle = "Caisse & Quitus · Porte 012",
-            Description = "Frais, reçus, quitus UBA", Category = "Caisse",
-            Block = "Bloc administratif", Floor = 0,
-            ListLoc = "Bloc administratif · Porte 012", Place = "Bloc administratif · RDC",
-            Landmark = "Repère : à droite de l'entrée principale",
-            Status = "Ouvert", Crowd = "Forte", ClosesAt = "14:00",
-            Manager = "Responsable de la caisse",
-            Phone = "+237 6 00 00 00 02", Email = "caisse@univ-douala.cm",
-            Queue = "File : 14 personnes · environ 35 min", Distance = 90, Minutes = 2,
-            Hours = new List<string[]>
-            {
-                new[] { "Lundi – Jeudi", "08:00 – 14:00" },
-                new[] { "Vendredi", "08:00 – 12:00" },
-                new[] { "Samedi – Dimanche", "Fermé" }
-            }
-        },
-        new Service
-        {
             Id = "med", Code = "MÉD", Name = "Centre médical CMSU", Short = "CMSU",
             SheetTitle = "Centre médical CMSU",
             Description = "Consultations et certificats médicaux", Category = "Médical",
@@ -161,58 +149,89 @@ public static class Data
         new Procedure
         {
             Id = "attestation", Category = "Scolarité", Title = "Retrait d'attestation de scolarité",
-            Delay = "48 h", Cost = "2 500 F", Office = "P. 104", DoorNumber = "104", ServiceId = "sco",
-            FormSize = "184 Ko", LocateLabel = "Localiser la Scolarité",
+            Delay = "Variable", Cost = "Gratuit", Office = "P. 104", DoorNumber = "104",
+            BadgeTop = "Porte", BadgeMain = "104", ServiceId = "sco",
+            FormSize = "3 Ko", FicheFile = "fiche-attestation.pdf", LocateLabel = "Localiser la Scolarité",
             Pieces = new List<Piece>
             {
-                new Piece { Name = "Photocopie de la CNI", Ready = true },
-                new Piece { Name = "Quitus de paiement UBA", Detail = "Année académique en cours", Ready = true },
-                new Piece { Name = "Deux timbres fiscaux", Detail = "1 000 FCFA chacun" },
-                new Piece { Name = "Copie du dernier relevé de notes" }
+                new Piece { Name = "Quitus de l'année en cours", Detail = "Année académique en cours" }
             },
             Steps = new List<Step>
             {
-                new Step { Title = "Télécharger et remplir le formulaire", Detail = "PDF compact · 184 Ko" },
-                new Step { Title = "Valider le quitus", Detail = "Caisse · Bloc administratif · RDC" },
-                new Step { Title = "Déposer le dossier", Detail = "Scolarité · Bloc A · Porte 104" },
-                new Step { Title = "Retirer l'attestation sous 48 h", Detail = "Scolarité · Porte 104" }
+                new Step { Title = "Rassembler ses quitus", Detail = "Quitus de l'année en cours" },
+                new Step { Title = "Déposer la demande", Detail = "Scolarité · Bloc A · Porte 104" },
+                new Step { Title = "Retirer l'attestation", Detail = "Scolarité · Porte 104 · le lendemain ou dans la semaine, selon la disponibilité du directeur" }
             }
         },
         new Procedure
         {
             Id = "releve", Category = "Scolarité", Title = "Demande de relevé de notes",
-            Delay = "72 h", Cost = "1 000 F", Office = "P. 104", DoorNumber = "104", ServiceId = "sco",
-            FormSize = "156 Ko", LocateLabel = "Localiser la Scolarité",
+            Delay = "Variable", Cost = "Gratuit", Office = "P. 104", DoorNumber = "104",
+            BadgeTop = "Porte", BadgeMain = "104", ServiceId = "sco",
+            FormSize = "4 Ko", FicheFile = "fiche-releve.pdf", LocateLabel = "Localiser la Scolarité",
             Pieces = new List<Piece>
             {
-                new Piece { Name = "Photocopie de la CNI" },
-                new Piece { Name = "Quitus de paiement UBA", Detail = "Année académique en cours" },
-                new Piece { Name = "Demande manuscrite" }
+                new Piece { Name = "Quitus de l'année précédente", Detail = "Année académique antérieure" },
+                new Piece { Name = "Reçus de paiement", Detail = "À faire cacheter au bureau de la Scolarité" },
+                new Piece { Name = "Photocopies certifiées", Detail = "À faire certifier à la Scolarité" }
             },
             Steps = new List<Step>
             {
-                new Step { Title = "Télécharger et remplir le formulaire", Detail = "PDF compact · 156 Ko" },
-                new Step { Title = "Déposer le dossier", Detail = "Scolarité · Bloc A · Porte 104" },
-                new Step { Title = "Retirer le relevé sous 72 h", Detail = "Scolarité · Porte 104" }
+                new Step { Title = "Rassembler quitus et reçus", Detail = "Quitus de l'année précédente" },
+                new Step { Title = "Faire cacheter les reçus", Detail = "Scolarité · Bloc A · Porte 104" },
+                new Step { Title = "Photocopier et faire certifier", Detail = "Certification par la Scolarité · Porte 104" },
+                new Step { Title = "Déposer le dossier", Detail = "Scolarité · Porte 104" },
+                new Step { Title = "Retirer le relevé de notes", Detail = "Scolarité · Porte 104 · le lendemain ou dans la semaine, selon la disponibilité du directeur" }
             }
         },
         new Procedure
         {
-            Id = "quitus", Category = "Caisse", Title = "Obtention du quitus UBA",
-            Delay = "24 h", Cost = "Gratuit", Office = "P. 012", DoorNumber = "012", ServiceId = "cai",
-            FormSize = "92 Ko", LocateLabel = "Localiser la Caisse",
+            Id = "quitus", Category = "Scolarité", Title = "Obtention des quitus",
+            Delay = "", Cost = "Gratuit", Office = "En ligne", DoorNumber = "",
+            BadgeTop = "En", BadgeMain = "ligne", ServiceId = "",
+            FormSize = "3 Ko", FicheFile = "fiche-quitus.pdf", LocateLabel = "Télécharger la fiche",
             Pieces = new List<Piece>
             {
-                new Piece { Name = "Reçu de paiement des frais" },
-                new Piece { Name = "Photocopie de la CNI" }
+                new Piece { Name = "Quitus médical", Detail = "2 exemplaires" },
+                new Piece { Name = "Quitus tranche 1", Detail = "2 exemplaires" },
+                new Piece { Name = "Quitus tranche 2", Detail = "2 exemplaires" }
             },
             Steps = new List<Step>
             {
-                new Step { Title = "Présenter le reçu à la Caisse", Detail = "Caisse · Bloc administratif · Porte 012" },
-                new Step { Title = "Retirer le quitus sous 24 h", Detail = "Caisse · Porte 012" }
+                new Step { Title = "Se connecter à son espace", Detail = "Site de l'université · compte étudiant" },
+                new Step { Title = "Télécharger les 3 quitus", Detail = "Médical · Tranche 1 · Tranche 2" },
+                new Step { Title = "Imprimer 2 exemplaires de chaque", Detail = "2 exemplaires de chaque quitus" },
+                new Step { Title = "Payer à la banque UBA", Detail = "Seule banque pour les frais de scolarité · hors application" },
+                new Step { Title = "Récupérer les reçus de paiement", Detail = "À conserver pour les autres démarches" }
+            }
+        },
+        new Procedure
+        {
+            Id = "stage", Category = "Scolarité", Title = "Dépôt de la lettre de mise en stage",
+            Delay = "Variable", Cost = "Gratuit", Office = "Étage 1", DoorNumber = "",
+            BadgeTop = "1er", BadgeMain = "étage", ServiceId = "sco",
+            FormSize = "3 Ko", FicheFile = "fiche-stage.pdf", LocateLabel = "Localiser la Scolarité",
+            Pieces = new List<Piece>
+            {
+                new Piece { Name = "Quitus de l'année en cours", Detail = "Année académique en cours" },
+                new Piece { Name = "Lettre de mise en stage", Detail = "À déposer" }
+            },
+            Steps = new List<Step>
+            {
+                new Step { Title = "Rassembler ses quitus", Detail = "Quitus de l'année en cours" },
+                new Step { Title = "Déposer la lettre de mise en stage", Detail = "Scolarité · 1er étage · repérer la salle grâce à l'intitulé sur la porte" }
             }
         }
     };
+
+    /// <summary>Remplace le catalogue local par celui reçu de l'API.</summary>
+    public static void Replace(List<Service> services, List<Procedure> procedures)
+    {
+        Services.Clear();
+        Services.AddRange(services);
+        Procedures.Clear();
+        Procedures.AddRange(procedures);
+    }
 
     public static Service GetService(string id)
     {

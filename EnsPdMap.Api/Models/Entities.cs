@@ -59,6 +59,9 @@ public class ProcedureEntity
     public string Cost { get; set; } = "";
     public string Office { get; set; } = "";
     public string DoorNumber { get; set; } = "";
+    public string BadgeTop { get; set; } = "";
+    public string BadgeMain { get; set; } = "";
+    public string FicheFile { get; set; } = "";
     public string ServiceId { get; set; } = "";
     public string FormSize { get; set; } = "";
     public string LocateLabel { get; set; } = "";

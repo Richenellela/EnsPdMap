@@ -8,7 +8,7 @@ namespace EnsPdMap.Pages;
 
 public partial class AnnuairePage : ContentPage
 {
-    static readonly string[] Filters = { "Tous", "Scolarité", "Départements", "Caisse", "Médical" };
+    static readonly string[] Filters = { "Tous", "Scolarité", "Départements", "Médical" };
     string _filter = "Tous";
     string _query = "";
 

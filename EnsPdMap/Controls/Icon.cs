@@ -67,6 +67,9 @@ public class Icon : ContentView
         _path.Stroke = new SolidColorBrush(IconColor);
         _path.StrokeThickness = Math.Max(1.4, size / 11);
 
+        if (_appliedGlyph == Glyph && _path.Data != null) return;
+        _appliedGlyph = Glyph;
+
         string d;
         if (Glyph != null && Paths.TryGetValue(Glyph, out d))
         {
@@ -84,6 +87,8 @@ public class Icon : ContentView
             _path.Data = null;
         }
     }
+
+    string _appliedGlyph;
 
     static readonly Dictionary<string, string> Paths = new Dictionary<string, string>
     {

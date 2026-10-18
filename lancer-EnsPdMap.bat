@@ -18,16 +18,18 @@ echo   2. Restaurer et compiler le projet
 echo   3. Compiler et lancer sur appareil ou emulateur
 echo   4. Tout faire (1 + 2 + 3)
 echo   5. Nettoyer (supprimer bin et obj)
-echo   6. Quitter
+echo   6. Lancer en mode RELEASE (beaucoup plus fluide, sans debogage)
+echo   7. Quitter
 echo.
 set "CHOIX="
-set /p CHOIX=Votre choix (1-6) : 
+set /p CHOIX=Votre choix (1-7) : 
 if "%CHOIX%"=="1" goto do1
 if "%CHOIX%"=="2" goto do2
 if "%CHOIX%"=="3" goto do3
 if "%CHOIX%"=="4" goto do4
 if "%CHOIX%"=="5" goto do5
-if "%CHOIX%"=="6" goto fin
+if "%CHOIX%"=="6" goto do6
+if "%CHOIX%"=="7" goto fin
 goto menu
 
 :do1
@@ -64,6 +66,14 @@ goto menu
 if exist "EnsPdMap\bin" rmdir /s /q "EnsPdMap\bin"
 if exist "EnsPdMap\obj" rmdir /s /q "EnsPdMap\obj"
 echo Dossiers bin et obj supprimes.
+pause
+goto menu
+
+:do6
+echo.
+echo Compilation Release et lancement (premiere fois : plusieurs minutes)...
+dotnet build "%PROJ%" -f %TFM% -c Release -t:Run
+if errorlevel 1 echo [!] Echec. Verifiez qu'un appareil ou un emulateur est demarre.
 pause
 goto menu
 

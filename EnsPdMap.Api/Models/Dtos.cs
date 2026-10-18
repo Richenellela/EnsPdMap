@@ -22,7 +22,7 @@ public record StepDto(string Title, string Detail);
 
 public record ProcedureDto(
     string Id, string Category, string Title, string Delay, string Cost, string Office,
-    string DoorNumber, string ServiceId, string FormSize, string LocateLabel,
+    string DoorNumber, string BadgeTop, string BadgeMain, string ServiceId, string FormSize, string FicheFile, string LocateLabel,
     List<PieceDto> Pieces, List<StepDto> Steps);
 
 public record SearchResult(List<ServiceDto> Services, List<ProcedureDto> Procedures);

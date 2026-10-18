@@ -30,6 +30,6 @@ public static class Mappers
         var steps = p.Steps.OrderBy(x => x.SortOrder).Select(x => new StepDto(x.Title, x.Detail)).ToList();
         return new ProcedureDto(
             p.Id, p.Category, p.Title, p.Delay, p.Cost, p.Office,
-            p.DoorNumber, p.ServiceId, p.FormSize, p.LocateLabel, pieces, steps);
+            p.DoorNumber, p.BadgeTop, p.BadgeMain, p.ServiceId, p.FormSize, p.FicheFile, p.LocateLabel, pieces, steps);
     }
 }

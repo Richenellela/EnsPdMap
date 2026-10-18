@@ -1,5 +1,5 @@
-using EnsPdMap.Helpers;
 using EnsPdMap.Controls;
+using EnsPdMap.Helpers;
 using EnsPdMap.Models;
 using Microsoft.Maui.Graphics;
 
@@ -11,7 +11,41 @@ public partial class HorsLignePage : ContentPage
     {
         InitializeComponent();
         EcoSwitch.IsToggled = AppState.UltraEco;
+        ApiUrlEntry.Text = ApiClient.BaseUrl;
         BuildDocs();
+    }
+
+    async void OnApiTest(object sender, EventArgs e)
+    {
+        ApiTestButton.IsEnabled = false;
+        ApiTestButton.Text = "Test en cours…";
+        try
+        {
+            ApiClient.BaseUrl = ApiUrlEntry.Text ?? "";
+            bool reachable = await ApiClient.PingAsync();
+            bool synced = reachable && await ApiClient.SyncCatalogAsync();
+            ApiResultLabel.IsVisible = true;
+            if (synced)
+            {
+                ApiResultLabel.Text = "Serveur joignable : catalogue synchronisé.";
+                ApiResultLabel.TextColor = Pal.Green;
+            }
+            else if (reachable)
+            {
+                ApiResultLabel.Text = "Serveur joignable, mais le catalogue est vide.";
+                ApiResultLabel.TextColor = Pal.GoldDark;
+            }
+            else
+            {
+                ApiResultLabel.Text = "Serveur injoignable : l'application reste en mode hors connexion.";
+                ApiResultLabel.TextColor = Pal.Red;
+            }
+        }
+        finally
+        {
+            ApiTestButton.IsEnabled = true;
+            ApiTestButton.Text = "Tester et synchroniser";
+        }
     }
 
     void AddDoc(string title, string detail, bool divider, string route)
@@ -36,7 +70,7 @@ public partial class HorsLignePage : ContentPage
     void BuildDocs()
     {
         DocList.Children.Clear();
-        AddDoc("Retrait d'attestation", "Formulaire + checklist · 184 Ko", true, "procedure?id=attestation");
+        AddDoc("Fiches des démarches", Data.Procedures.Count + " fiches PDF · téléchargeables", true, "demarches");
         AddDoc("Plan du campus PK17", "Carte vectorielle · 96 Ko", true, "//plan");
         AddDoc("Annuaire des bureaux", "24 services · 62 Ko", false, "//annuaire");
     }

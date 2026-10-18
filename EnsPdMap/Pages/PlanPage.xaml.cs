@@ -1,8 +1,7 @@
 using EnsPdMap.Controls;
 using EnsPdMap.Helpers;
 using EnsPdMap.Models;
-using Microsoft.Maui.Controls; // AbsoluteLayout, AbsoluteLayout.SetLayoutBounds, ...
-using Microsoft.Maui.Layouts;   // Ajouté pour AbsoluteLayoutFlags
+using Microsoft.Maui.Layouts;
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Graphics;
 
@@ -31,15 +30,15 @@ public partial class PlanPage : ContentPage
         new[] { 0.58, 0.60, 0.42, 0.08 },
         new[] { 0.58, 0.49, 0.18, 0.08 },
         new[] { 0.80, 0.49, 0.20, 0.08 },
-        new[] { 0.00, 0.56, 0.32, 0.06 }
+        new[] { 0.00, 0.56, 0.32, 0.06 },
+        new[] { 0.00, 0.34, 0.32, 0.17 }
     };
 
-    static readonly string[] BlockIds = { "sco", "dgi", "cai", "med" };
+    static readonly string[] BlockIds = { "sco", "dgi", "med" };
     static readonly double[][] BlockRects =
     {
         new[] { 0.00, 0.15, 0.42, 0.13 },
         new[] { 0.58, 0.12, 0.42, 0.16 },
-        new[] { 0.00, 0.34, 0.32, 0.17 },
         new[] { 0.58, 0.34, 0.42, 0.11 }
     };
 
@@ -75,7 +74,8 @@ public partial class PlanPage : ContentPage
         {
             _expanded = value;
             _animating = true;
-            await Sheet.TranslateTo(0, value ? 0 : _collapsed, 260, Easing.CubicOut);
+            SheetChevron.Rotation = value ? 90 : -90;
+            await Sheet.TranslateTo(0, value ? 0 : _collapsed, 220, Easing.CubicOut);
         }
         catch (Exception ex)
         {
@@ -92,6 +92,12 @@ public partial class PlanPage : ContentPage
         await SetExpanded(!_expanded);
     }
 
+    async void OnSheetSwipe(object sender, SwipedEventArgs e)
+    {
+        if (e.Direction == SwipeDirection.Up) await SetExpanded(true);
+        else if (e.Direction == SwipeDirection.Down) await SetExpanded(false);
+    }
+
     async void OnSheetPan(object sender, PanUpdatedEventArgs e)
     {
         if (e.StatusType == GestureStatus.Started)
@@ -104,8 +110,8 @@ public partial class PlanPage : ContentPage
         }
         else if (e.StatusType == GestureStatus.Completed)
         {
-            if (_lastPanY < -20) await SetExpanded(true);
-            else if (_lastPanY > 20) await SetExpanded(false);
+            if (_lastPanY < -12) await SetExpanded(true);
+            else if (_lastPanY > 12) await SetExpanded(false);
         }
     }
 

@@ -48,8 +48,8 @@ public static class Ui
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         };
-        badgeText.Children.Add(new Label { Text = "Porte", FontSize = 10, TextColor = Pal.GoldDark, HorizontalTextAlignment = TextAlignment.Center });
-        badgeText.Children.Add(new Label { Text = p.DoorNumber, FontSize = 16, FontAttributes = FontAttributes.Bold, TextColor = Pal.GoldDark, HorizontalTextAlignment = TextAlignment.Center });
+        badgeText.Children.Add(new Label { Text = p.BadgeTop, FontSize = 10, TextColor = Pal.GoldDark, HorizontalTextAlignment = TextAlignment.Center });
+        badgeText.Children.Add(new Label { Text = p.BadgeMain, FontSize = 16, FontAttributes = FontAttributes.Bold, TextColor = Pal.GoldDark, HorizontalTextAlignment = TextAlignment.Center });
         badge.Content = badgeText;
 
         var texts = new VerticalStackLayout { Spacing = 2, VerticalOptions = LayoutOptions.Center };

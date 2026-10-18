@@ -116,7 +116,7 @@
             <Label x:Name="ErrorLabel" TextColor="{StaticResource Red}" FontSize="13" IsVisible="False"
                    Margin="0,10,0,0" />
 
-            <Button Text="Créer mon compte" Style="{StaticResource PrimaryButton}" Margin="0,18,0,0"
+            <Button x:Name="SubmitButton" Text="Créer mon compte" Style="{StaticResource PrimaryButton}" Margin="0,18,0,0"
                     Clicked="OnSubmit" />
 
         </VerticalStackLayout>

@@ -67,14 +67,21 @@
                 </Border.Shadow>
                 <Border.GestureRecognizers>
                     <PanGestureRecognizer PanUpdated="OnSheetPan" />
+                    <SwipeGestureRecognizer Direction="Up" Swiped="OnSheetSwipe" />
+                    <SwipeGestureRecognizer Direction="Down" Swiped="OnSheetSwipe" />
                 </Border.GestureRecognizers>
                 <VerticalStackLayout Spacing="0">
 
                     <Grid HeightRequest="34">
                         <BoxView WidthRequest="44" HeightRequest="5" CornerRadius="3" Color="{StaticResource Line}"
                                  HorizontalOptions="Center" VerticalOptions="Center" />
+                        <c:Icon x:Name="SheetChevron" Glyph="chevron" IconColor="{StaticResource Muted}" Size="18"
+                                HorizontalOptions="End" VerticalOptions="Center" Rotation="-90" />
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnSheetHandle" />
+                            <PanGestureRecognizer PanUpdated="OnSheetPan" />
+                            <SwipeGestureRecognizer Direction="Up" Swiped="OnSheetSwipe" />
+                            <SwipeGestureRecognizer Direction="Down" Swiped="OnSheetSwipe" />
                         </Grid.GestureRecognizers>
                     </Grid>
 

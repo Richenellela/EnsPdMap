@@ -20,6 +20,9 @@ echo   Depuis l'emulateur Android : http://10.0.2.2:5080
 echo   Test rapide : http://localhost:5080/api/health
 echo ==================================================
 echo.
+echo Adresse(s) IPv4 de ce PC ^(pour un telephone sur le meme Wi-Fi^) :
+ipconfig | findstr /c:"IPv4"
+echo.
 echo Restauration et demarrage (Ctrl+C pour arreter)...
 echo.
 dotnet run --project "%API%"

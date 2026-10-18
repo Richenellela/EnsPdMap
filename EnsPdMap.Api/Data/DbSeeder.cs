@@ -1,4 +1,5 @@
 using EnsPdMap.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EnsPdMap.Api.Data;
 
@@ -15,7 +16,13 @@ public static class DbSeeder
 
     public static void Seed(AppDbContext db)
     {
-        if (!db.Services.Any())
+        // Le catalogue (services, démarches) est géré dans ce fichier : on le recrée à chaque démarrage.
+        db.Pieces.ExecuteDelete();
+        db.Steps.ExecuteDelete();
+        db.Procedures.ExecuteDelete();
+        db.Hours.ExecuteDelete();
+        db.Services.ExecuteDelete();
+
         {
             db.Services.AddRange(
                 new ServiceEntity
@@ -46,20 +53,7 @@ public static class DbSeeder
                 },
                 new ServiceEntity
                 {
-                    Id = "cai", SortOrder = 2, Code = "CAI", Name = "Caisse & Quitus", ShortName = "Caisse",
-                    SheetTitle = "Caisse & Quitus · Porte 012", Description = "Frais, reçus, quitus UBA",
-                    Category = "Caisse", Block = "Bloc administratif", Floor = 0,
-                    ListLoc = "Bloc administratif · Porte 012", Place = "Bloc administratif · RDC",
-                    Landmark = "Repère : à droite de l'entrée principale",
-                    Status = "Ouvert", Crowd = "Forte", ClosesAt = "14:00",
-                    Manager = "Responsable de la caisse",
-                    Phone = "+237 6 00 00 00 02", Email = "caisse@univ-douala.cm",
-                    Queue = "File : 14 personnes · environ 35 min", Distance = 90, Minutes = 2,
-                    Hours = Hours("Lundi – Jeudi", "08:00 – 14:00", "Vendredi", "08:00 – 12:00", "Samedi – Dimanche", "Fermé")
-                },
-                new ServiceEntity
-                {
-                    Id = "med", SortOrder = 3, Code = "MÉD", Name = "Centre médical CMSU", ShortName = "CMSU",
+                    Id = "med", SortOrder = 2, Code = "MÉD", Name = "Centre médical CMSU", ShortName = "CMSU",
                     SheetTitle = "Centre médical CMSU", Description = "Consultations et certificats médicaux",
                     Category = "Médical", Block = "Bâtiment santé · Entrée Est", Floor = 0,
                     ListLoc = "Entrée Est · Bâtiment santé", Place = "Bâtiment santé · Entrée Est",
@@ -72,61 +66,82 @@ public static class DbSeeder
                 });
         }
 
-        if (!db.Procedures.Any())
         {
             db.Procedures.AddRange(
                 new ProcedureEntity
                 {
                     Id = "attestation", SortOrder = 0, Category = "Scolarité", Title = "Retrait d'attestation de scolarité",
-                    Delay = "48 h", Cost = "2 500 F", Office = "P. 104", DoorNumber = "104", ServiceId = "sco",
-                    FormSize = "184 Ko", LocateLabel = "Localiser la Scolarité",
+                    Delay = "Variable", Cost = "Gratuit", Office = "P. 104", DoorNumber = "104",
+                    BadgeTop = "Porte", BadgeMain = "104", ServiceId = "sco",
+                    FormSize = "3 Ko", FicheFile = "fiche-attestation.pdf", LocateLabel = "Localiser la Scolarité",
                     Pieces = new List<PieceEntity>
                     {
-                        new PieceEntity { SortOrder = 0, Name = "Photocopie de la CNI" },
-                        new PieceEntity { SortOrder = 1, Name = "Quitus de paiement UBA", Detail = "Année académique en cours" },
-                        new PieceEntity { SortOrder = 2, Name = "Deux timbres fiscaux", Detail = "1 000 FCFA chacun" },
-                        new PieceEntity { SortOrder = 3, Name = "Copie du dernier relevé de notes" }
+                        new PieceEntity { SortOrder = 0, Name = "Quitus de l'année en cours", Detail = "Année académique en cours" }
                     },
                     Steps = new List<StepEntity>
                     {
-                        new StepEntity { SortOrder = 0, Title = "Télécharger et remplir le formulaire", Detail = "PDF compact · 184 Ko" },
-                        new StepEntity { SortOrder = 1, Title = "Valider le quitus", Detail = "Caisse · Bloc administratif · RDC" },
-                        new StepEntity { SortOrder = 2, Title = "Déposer le dossier", Detail = "Scolarité · Bloc A · Porte 104" },
-                        new StepEntity { SortOrder = 3, Title = "Retirer l'attestation sous 48 h", Detail = "Scolarité · Porte 104" }
+                        new StepEntity { SortOrder = 0, Title = "Rassembler ses quitus", Detail = "Quitus de l'année en cours" },
+                        new StepEntity { SortOrder = 1, Title = "Déposer la demande", Detail = "Scolarité · Bloc A · Porte 104" },
+                        new StepEntity { SortOrder = 2, Title = "Retirer l'attestation", Detail = "Scolarité · Porte 104 · le lendemain ou dans la semaine, selon la disponibilité du directeur" }
                     }
                 },
                 new ProcedureEntity
                 {
                     Id = "releve", SortOrder = 1, Category = "Scolarité", Title = "Demande de relevé de notes",
-                    Delay = "72 h", Cost = "1 000 F", Office = "P. 104", DoorNumber = "104", ServiceId = "sco",
-                    FormSize = "156 Ko", LocateLabel = "Localiser la Scolarité",
+                    Delay = "Variable", Cost = "Gratuit", Office = "P. 104", DoorNumber = "104",
+                    BadgeTop = "Porte", BadgeMain = "104", ServiceId = "sco",
+                    FormSize = "4 Ko", FicheFile = "fiche-releve.pdf", LocateLabel = "Localiser la Scolarité",
                     Pieces = new List<PieceEntity>
                     {
-                        new PieceEntity { SortOrder = 0, Name = "Photocopie de la CNI" },
-                        new PieceEntity { SortOrder = 1, Name = "Quitus de paiement UBA", Detail = "Année académique en cours" },
-                        new PieceEntity { SortOrder = 2, Name = "Demande manuscrite" }
+                        new PieceEntity { SortOrder = 0, Name = "Quitus de l'année précédente", Detail = "Année académique antérieure" },
+                        new PieceEntity { SortOrder = 1, Name = "Reçus de paiement", Detail = "À faire cacheter au bureau de la Scolarité" },
+                        new PieceEntity { SortOrder = 2, Name = "Photocopies certifiées", Detail = "À faire certifier à la Scolarité" }
                     },
                     Steps = new List<StepEntity>
                     {
-                        new StepEntity { SortOrder = 0, Title = "Télécharger et remplir le formulaire", Detail = "PDF compact · 156 Ko" },
-                        new StepEntity { SortOrder = 1, Title = "Déposer le dossier", Detail = "Scolarité · Bloc A · Porte 104" },
-                        new StepEntity { SortOrder = 2, Title = "Retirer le relevé sous 72 h", Detail = "Scolarité · Porte 104" }
+                        new StepEntity { SortOrder = 0, Title = "Rassembler quitus et reçus", Detail = "Quitus de l'année précédente" },
+                        new StepEntity { SortOrder = 1, Title = "Faire cacheter les reçus", Detail = "Scolarité · Bloc A · Porte 104" },
+                        new StepEntity { SortOrder = 2, Title = "Photocopier et faire certifier", Detail = "Certification par la Scolarité · Porte 104" },
+                        new StepEntity { SortOrder = 3, Title = "Déposer le dossier", Detail = "Scolarité · Porte 104" },
+                        new StepEntity { SortOrder = 4, Title = "Retirer le relevé de notes", Detail = "Scolarité · Porte 104 · le lendemain ou dans la semaine, selon la disponibilité du directeur" }
                     }
                 },
                 new ProcedureEntity
                 {
-                    Id = "quitus", SortOrder = 2, Category = "Caisse", Title = "Obtention du quitus UBA",
-                    Delay = "24 h", Cost = "Gratuit", Office = "P. 012", DoorNumber = "012", ServiceId = "cai",
-                    FormSize = "92 Ko", LocateLabel = "Localiser la Caisse",
+                    Id = "quitus", SortOrder = 2, Category = "Scolarité", Title = "Obtention des quitus",
+                    Delay = "", Cost = "Gratuit", Office = "En ligne", DoorNumber = "",
+                    BadgeTop = "En", BadgeMain = "ligne", ServiceId = "",
+                    FormSize = "3 Ko", FicheFile = "fiche-quitus.pdf", LocateLabel = "Télécharger la fiche",
                     Pieces = new List<PieceEntity>
                     {
-                        new PieceEntity { SortOrder = 0, Name = "Reçu de paiement des frais" },
-                        new PieceEntity { SortOrder = 1, Name = "Photocopie de la CNI" }
+                        new PieceEntity { SortOrder = 0, Name = "Quitus médical", Detail = "2 exemplaires" },
+                        new PieceEntity { SortOrder = 1, Name = "Quitus tranche 1", Detail = "2 exemplaires" },
+                        new PieceEntity { SortOrder = 2, Name = "Quitus tranche 2", Detail = "2 exemplaires" }
                     },
                     Steps = new List<StepEntity>
                     {
-                        new StepEntity { SortOrder = 0, Title = "Présenter le reçu à la Caisse", Detail = "Caisse · Bloc administratif · Porte 012" },
-                        new StepEntity { SortOrder = 1, Title = "Retirer le quitus sous 24 h", Detail = "Caisse · Porte 012" }
+                        new StepEntity { SortOrder = 0, Title = "Se connecter à son espace", Detail = "Site de l'université · compte étudiant" },
+                        new StepEntity { SortOrder = 1, Title = "Télécharger les 3 quitus", Detail = "Médical · Tranche 1 · Tranche 2" },
+                        new StepEntity { SortOrder = 2, Title = "Imprimer 2 exemplaires de chaque", Detail = "2 exemplaires de chaque quitus" },
+                        new StepEntity { SortOrder = 3, Title = "Payer à la banque UBA", Detail = "Seule banque pour les frais de scolarité · hors application" },
+                        new StepEntity { SortOrder = 4, Title = "Récupérer les reçus de paiement", Detail = "À conserver pour les autres démarches" }
+                    }
+                },
+                new ProcedureEntity
+                {
+                    Id = "stage", SortOrder = 3, Category = "Scolarité", Title = "Dépôt de la lettre de mise en stage",
+                    Delay = "Variable", Cost = "Gratuit", Office = "Étage 1", DoorNumber = "",
+                    BadgeTop = "1er", BadgeMain = "étage", ServiceId = "sco",
+                    FormSize = "3 Ko", FicheFile = "fiche-stage.pdf", LocateLabel = "Localiser la Scolarité",
+                    Pieces = new List<PieceEntity>
+                    {
+                        new PieceEntity { SortOrder = 0, Name = "Quitus de l'année en cours", Detail = "Année académique en cours" },
+                        new PieceEntity { SortOrder = 1, Name = "Lettre de mise en stage", Detail = "À déposer" }
+                    },
+                    Steps = new List<StepEntity>
+                    {
+                        new StepEntity { SortOrder = 0, Title = "Rassembler ses quitus", Detail = "Quitus de l'année en cours" },
+                        new StepEntity { SortOrder = 1, Title = "Déposer la lettre de mise en stage", Detail = "Scolarité · 1er étage · repérer la salle grâce à l'intitulé sur la porte" }
                     }
                 });
         }

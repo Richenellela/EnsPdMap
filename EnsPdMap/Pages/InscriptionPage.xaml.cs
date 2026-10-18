@@ -155,8 +155,38 @@ public partial class InscriptionPage : ContentPage
         if (!CharteCheck.IsChecked) { ShowError("Vous devez accepter la charte informatique."); return; }
 
         ErrorLabel.IsVisible = false;
-        AppState.Register(name, _filiere, _niveau);
-        await DisplayAlert("Compte créé", "Bienvenue sur EnsPdMap, " + AppState.FirstName + " !", "Continuer");
-        await Nav.GoAsync("//accueil");
+        SubmitButton.IsEnabled = false;
+        SubmitButton.Text = "Création du compte…";
+        try
+        {
+            var result = await ApiClient.RegisterAsync(name, MatEntry.Text.Trim(), MailEntry.Text.Trim(), _filiere, _niveau, PwdEntry.Text);
+            if (result.Ok)
+            {
+                await ApiClient.SyncCatalogAsync();
+                await DisplayAlert("Compte créé", "Bienvenue sur EnsPdMap, " + AppState.FirstName + " !", "Continuer");
+                await Nav.GoAsync("//accueil");
+                return;
+            }
+
+            if (result.NetworkError)
+            {
+                bool offline = await DisplayAlert("Serveur injoignable",
+                    "Impossible de joindre l'API (" + ApiClient.BaseUrl + "). Continuer en mode hors connexion ? Le compte ne sera pas enregistré.",
+                    "Continuer", "Annuler");
+                if (offline)
+                {
+                    AppState.Register(name, _filiere, _niveau);
+                    await Nav.GoAsync("//accueil");
+                }
+                return;
+            }
+
+            ShowError(result.Message);
+        }
+        finally
+        {
+            SubmitButton.IsEnabled = true;
+            SubmitButton.Text = "Créer mon compte";
+        }
     }
 }

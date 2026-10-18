@@ -39,8 +39,9 @@ public partial class AccueilPage : ContentPage
     void BuildLists()
     {
         FreqList.Children.Clear();
-        for (int i = 0; i < Data.Procedures.Count; i++)
-            FreqList.Children.Add(Ui.ProcedureRow(Data.Procedures[i], i < Data.Procedures.Count - 1));
+        int shown = Math.Min(3, Data.Procedures.Count);
+        for (int i = 0; i < shown; i++)
+            FreqList.Children.Add(Ui.ProcedureRow(Data.Procedures[i], i < shown - 1));
 
         CrowdStack.Children.Clear();
         foreach (var s in Data.Services)

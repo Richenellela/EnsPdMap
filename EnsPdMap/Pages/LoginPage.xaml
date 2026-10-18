@@ -96,10 +96,10 @@
                     </Label>
                 </Grid>
 
-                <Button Text="Se connecter" Style="{StaticResource PrimaryButton}" Margin="0,18,0,0"
+                <Button x:Name="LoginButton" Text="Se connecter" Style="{StaticResource PrimaryButton}" Margin="0,18,0,0"
                         Clicked="OnLogin" />
 
-                <Button Text="Continuer en tant que visiteur" BackgroundColor="Transparent"
+                <Button x:Name="VisitorButton" Text="Continuer en tant que visiteur" BackgroundColor="Transparent"
                         TextColor="{StaticResource Green}" FontAttributes="Bold" FontSize="16"
                         Margin="0,6,0,0" Clicked="OnVisitor" />
 

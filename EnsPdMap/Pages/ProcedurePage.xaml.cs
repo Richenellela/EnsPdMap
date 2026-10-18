@@ -37,11 +37,12 @@ public partial class ProcedurePage : ContentPage
     {
         CatLabel.Text = _p.Category;
         TitleLabel.Text = _p.Title;
-        DelayLabel.Text = _p.Delay;
+        DelayLabel.Text = string.IsNullOrEmpty(_p.Delay) ? "—" : _p.Delay;
         CostLabel.Text = _p.Cost;
         OfficeLabel.Text = _p.Office;
         FormSizeLabel.Text = _p.FormSize;
         LocateLabel.Text = _p.LocateLabel;
+        LocateIcon.Glyph = string.IsNullOrEmpty(_p.ServiceId) ? "download" : "nav";
         BuildPieces();
         BuildSteps();
     }
@@ -195,13 +196,16 @@ public partial class ProcedurePage : ContentPage
 
     async void OnDownload(object sender, TappedEventArgs e)
     {
-        await DisplayAlert("Formulaire PDF compact",
-            "Le formulaire (" + _p.FormSize + ") est disponible hors ligne. Le téléchargement réel sera branché avec le back-end.",
-            "OK");
+        await Fiches.DownloadAsync(this, _p);
     }
 
     async void OnLocate(object sender, TappedEventArgs e)
     {
+        if (string.IsNullOrEmpty(_p.ServiceId))
+        {
+            await Fiches.DownloadAsync(this, _p);
+            return;
+        }
         AppState.PlanTarget = _p.ServiceId;
         await Nav.GoAsync("//plan");
     }

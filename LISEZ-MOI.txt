@@ -1,16 +1,25 @@
 EnsPdMap
 
-PHASE A/B - Application mobile (.NET MAUI, Android)
+APPLICATION MOBILE (.NET MAUI, Android)
 1. Double-clic sur EnsPdMap.sln dans Visual Studio 2022 (17.12 ou plus)
 2. Choisir "Android Emulator" ou le telephone (debogage USB), puis F5
    ou : double-clic sur lancer-EnsPdMap.bat, option 4.
+- FLUIDITE : le mode Debug est lent par nature. Pour juger la vitesse reelle,
+  passer Visual Studio en "Release" et lancer sans debogage (Ctrl+F5),
+  ou utiliser lancer-EnsPdMap.bat option 6.
 - Si l'appli rencontre une erreur, elle affiche un message au lieu de se fermer ;
   une erreur fatale est affichee au demarrage suivant (ecran de connexion).
+- Fiche du plan : tirer vers le haut, glisser la poignee, ou toucher la fleche.
+- Fiches PDF : bouton "Fiche PDF de la demarche" (disponibles hors ligne).
 
-PHASE C - API (ASP.NET Core 9 + SQLite + JWT)
-- Double-clic sur run-api.bat (ou ouvrir EnsPdMap.Api\EnsPdMap.Api.csproj)
-- Tests : ouvrir EnsPdMap.Api\EnsPdMap.Api.http dans Visual Studio et cliquer "Send request"
-- Base creee automatiquement (enspdmap.db) avec les services et demarches de depart.
+API (ASP.NET Core 9 + SQLite + JWT)
+- run-api.bat (port 5080). Tests : EnsPdMap.Api\EnsPdMap.Api.http
+- Emulateur Android : l'appli joint http://10.0.2.2:5080 (par defaut)
+- Telephone reel : lancer autoriser-pare-feu.bat (administrateur), puis dans l'appli
+  onglet "Hors ligne" > Serveur (API) saisir http://IP-DU-PC:5080 et "Tester".
+- Sans API, l'appli propose le mode hors connexion.
+- Le catalogue (services, demarches) est defini dans EnsPdMap.Api\Data\DbSeeder.cs
+  et recree a chaque demarrage ; les comptes etudiants sont conserves.
 
 Endpoints
   GET  /api/health
