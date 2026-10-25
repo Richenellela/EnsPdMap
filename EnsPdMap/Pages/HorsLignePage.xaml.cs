@@ -12,7 +12,26 @@ public partial class HorsLignePage : ContentPage
         InitializeComponent();
         EcoSwitch.IsToggled = AppState.UltraEco;
         ApiUrlEntry.Text = ApiClient.BaseUrl;
+        DemoSwitch.IsToggled = Locator.Demo;
+        OfflineTitle.Text = Data.Procedures.Count + " démarches hors ligne";
+        OfflineSub.Text = Data.Services.Count + " services · catalogue v" + Data.Version;
         BuildDocs();
+    }
+
+    void OnDemoToggled(object sender, ToggledEventArgs e)
+    {
+        Locator.Demo = e.Value;
+    }
+
+    async void OnCalibrate(object sender, TappedEventArgs e)
+    {
+        await Nav.GoAsync("etalonnage");
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        PageFx.FadeIn(this);
     }
 
     async void OnApiTest(object sender, EventArgs e)
@@ -71,8 +90,8 @@ public partial class HorsLignePage : ContentPage
     {
         DocList.Children.Clear();
         AddDoc("Fiches des démarches", Data.Procedures.Count + " fiches PDF · téléchargeables", true, "demarches");
-        AddDoc("Plan du campus PK17", "Carte vectorielle · 96 Ko", true, "//plan");
-        AddDoc("Annuaire des bureaux", "24 services · 62 Ko", false, "//annuaire");
+        AddDoc("Plan du campus PK17", "Carte vectorielle · 96 Ko", true, "//main/plan");
+        AddDoc("Annuaire des bureaux", "24 services · 62 Ko", false, "//main/annuaire");
     }
 
     void OnEcoToggled(object sender, ToggledEventArgs e)

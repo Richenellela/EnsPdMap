@@ -24,6 +24,7 @@ public static class Pal
 
     public static Color Crowd(string c)
     {
+        if (c == "Fermé") return Muted;
         if (c == "Forte") return Red;
         if (c == "Modérée") return GoldDark;
         return Green;

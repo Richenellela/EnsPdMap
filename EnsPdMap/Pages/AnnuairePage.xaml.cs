@@ -15,12 +15,22 @@ public partial class AnnuairePage : ContentPage
     public AnnuairePage()
     {
         InitializeComponent();
+        OfflineLabel.Text = Data.Services.Count + " services disponibles hors ligne";
         Rebuild();
     }
+
+    int _stamp = -1;
+    DateTime _builtAt = DateTime.MinValue;
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        PageFx.FadeIn(this);
+        if (_stamp != Data.Stamp || (DateTime.Now - _builtAt).TotalSeconds > 60)
+        {
+            OfflineLabel.Text = Data.Services.Count + " services disponibles hors ligne";
+            Rebuild();
+        }
         if (!string.IsNullOrEmpty(AppState.PendingQuery))
         {
             _query = AppState.PendingQuery;
@@ -77,6 +87,8 @@ public partial class AnnuairePage : ContentPage
             ServiceList.Children.Add(new BoxView { HeightRequest = 1, Color = Pal.Line });
         }
         EmptyLabel.IsVisible = count == 0;
+        _stamp = Data.Stamp;
+        _builtAt = DateTime.Now;
     }
 
     View BuildRow(Service s)
@@ -106,8 +118,11 @@ public partial class AnnuairePage : ContentPage
         texts.Children.Add(new Label { Text = s.ListLoc, FontSize = 13, FontAttributes = FontAttributes.Bold, TextColor = Pal.Muted });
 
         var status = new VerticalStackLayout { Spacing = 2, VerticalOptions = LayoutOptions.Center };
+        bool open = s.Status == "Ouvert";
         status.Children.Add(new Label { Text = s.Status, FontSize = 15, FontAttributes = FontAttributes.Bold, TextColor = Pal.Status(s.Status), HorizontalTextAlignment = TextAlignment.End });
-        status.Children.Add(new Label { Text = s.Crowd, FontSize = 13, TextColor = Pal.Crowd(s.Crowd), HorizontalTextAlignment = TextAlignment.End });
+        status.Children.Add(open
+            ? new Label { Text = s.Crowd, FontSize = 13, TextColor = Pal.Crowd(s.Crowd), HorizontalTextAlignment = TextAlignment.End }
+            : new Label { Text = s.NextOpeningShort, FontSize = 12, TextColor = Pal.Muted, HorizontalTextAlignment = TextAlignment.End, MaximumWidthRequest = 110 });
 
         var row = new Grid { ColumnSpacing = 12, Padding = new Thickness(0, 16) };
         row.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Auto));

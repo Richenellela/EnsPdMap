@@ -7,27 +7,60 @@ namespace EnsPdMap.Api.Endpoints;
 
 public static class CatalogEndpoints
 {
-    static bool MatchService(ServiceEntity s, string q)
+    public static readonly string[] CrowdLevels = { "Faible", "Modérée", "Forte" };
+
+    static async Task<List<ServiceInfo>> LoadServices(AppDbContext db, CatalogService catalog)
     {
-        string hay = TextUtil.Norm(s.Name + " " + s.ShortName + " " + s.Description + " " + s.ListLoc + " " + s.Category);
-        return hay.Contains(q);
+        DateTime now = DateTime.UtcNow;
+        DateTime cutoff = now.AddMinutes(-45);
+        var recent = await db.CrowdReports.AsNoTracking().Where(r => r.CreatedAt >= cutoff).ToListAsync();
+        return catalog.ServicesWithCrowd(recent, now);
     }
 
-    static bool MatchProcedure(ProcedureEntity p, string q)
+    static async Task<CalibrationDto?> LoadCalibration(AppDbContext db)
     {
-        string hay = TextUtil.Norm(p.Title + " " + p.Category + " " + string.Join(" ", p.Pieces.Select(x => x.Name)));
-        return hay.Contains(q);
+        var c = await db.Calibrations.AsNoTracking().OrderByDescending(x => x.UpdatedAt).FirstOrDefaultAsync();
+        if (c == null) return null;
+        return new CalibrationDto
+        {
+            OriginLat = c.OriginLat, OriginLon = c.OriginLon, AnchorX = c.AnchorX,
+            AnchorY = c.AnchorY, RotationDeg = c.RotationDeg, Scale = c.Scale
+        };
+    }
+
+    static bool MatchService(ServiceInfo s, string q)
+    {
+        return TextUtil.Norm(s.Name + " " + s.ShortName + " " + s.Description + " " + s.ListLoc + " " + s.Category).Contains(q);
+    }
+
+    static bool MatchProcedure(ProcedureInfo p, string q)
+    {
+        string pieces = string.Join(" ", p.Pieces.Select(x => x.Name));
+        string steps = string.Join(" ", p.Steps.Select(x => x.Title + " " + x.Detail));
+        return TextUtil.Norm(p.Title + " " + p.Category + " " + p.Overview + " " + pieces + " " + steps).Contains(q);
     }
 
     public static void MapCatalogEndpoints(this WebApplication app)
     {
         app.MapGet("/api/health", () => Results.Ok(new { status = "ok", time = DateTime.UtcNow }));
 
-        // Services (publics : le mode visiteur n'a pas besoin de compte)
-        app.MapGet("/api/services", async (AppDbContext db, string? category, string? q) =>
+        // Tout le catalogue en une requête (utilisé par l'application pour se synchroniser)
+        app.MapGet("/api/catalogue", async (AppDbContext db, CatalogService catalog) =>
         {
-            var items = await db.Services.AsNoTracking().Include(s => s.Hours).OrderBy(s => s.SortOrder).ToListAsync();
+            var response = new CatalogResponse
+            {
+                Version = catalog.Catalog.Version,
+                Services = await LoadServices(db, catalog),
+                Procedures = catalog.Catalog.Procedures,
+                Campus = catalog.Catalog.Campus,
+                Calibration = await LoadCalibration(db) ?? catalog.Catalog.Calibration
+            };
+            return Results.Ok(response);
+        });
 
+        app.MapGet("/api/services", async (AppDbContext db, CatalogService catalog, string? category, string? q) =>
+        {
+            var items = await LoadServices(db, catalog);
             if (!string.IsNullOrWhiteSpace(category) && TextUtil.Norm(category) != "tous")
             {
                 string c = TextUtil.Norm(category);
@@ -38,45 +71,37 @@ public static class CatalogEndpoints
                 string query = TextUtil.Norm(q.Trim());
                 items = items.Where(s => MatchService(s, query)).ToList();
             }
-            return Results.Ok(items.Select(s => s.ToDto()).ToList());
+            return Results.Ok(items);
         });
 
-        app.MapGet("/api/services/{id}", async (string id, AppDbContext db) =>
+        app.MapGet("/api/services/{id}", async (string id, AppDbContext db, CatalogService catalog) =>
         {
-            var service = await db.Services.AsNoTracking().Include(s => s.Hours).FirstOrDefaultAsync(s => s.Id == id);
-            return service == null ? Results.NotFound() : Results.Ok(service.ToDto());
+            var service = (await LoadServices(db, catalog)).FirstOrDefault(s => s.Id == id);
+            return service == null ? Results.NotFound() : Results.Ok(service);
         });
 
-        // Démarches
-        app.MapGet("/api/procedures", async (AppDbContext db) =>
+        app.MapGet("/api/procedures", (CatalogService catalog) => Results.Ok(catalog.Catalog.Procedures));
+
+        app.MapGet("/api/procedures/{id}", (string id, CatalogService catalog) =>
         {
-            var items = await db.Procedures.AsNoTracking().Include(p => p.Pieces).Include(p => p.Steps)
-                .OrderBy(p => p.SortOrder).ToListAsync();
-            return Results.Ok(items.Select(p => p.ToDto()).ToList());
+            var procedure = catalog.Catalog.Procedures.FirstOrDefault(p => p.Id == id);
+            return procedure == null ? Results.NotFound() : Results.Ok(procedure);
         });
 
-        app.MapGet("/api/procedures/{id}", async (string id, AppDbContext db) =>
+        app.MapGet("/api/campus", async (AppDbContext db, CatalogService catalog) =>
         {
-            var procedure = await db.Procedures.AsNoTracking().Include(p => p.Pieces).Include(p => p.Steps)
-                .FirstOrDefaultAsync(p => p.Id == id);
-            return procedure == null ? Results.NotFound() : Results.Ok(procedure.ToDto());
+            return Results.Ok(new { campus = catalog.Catalog.Campus, calibration = await LoadCalibration(db) ?? catalog.Catalog.Calibration });
         });
 
-        // Recherche globale : un bureau, une démarche, une pièce
-        app.MapGet("/api/search", async (AppDbContext db, string? q) =>
+        app.MapGet("/api/search", async (AppDbContext db, CatalogService catalog, string? q) =>
         {
             if (string.IsNullOrWhiteSpace(q))
-                return Results.Ok(new SearchResult(new List<ServiceDto>(), new List<ProcedureDto>()));
+                return Results.Ok(new SearchResult(new List<ServiceInfo>(), new List<ProcedureInfo>()));
 
             string query = TextUtil.Norm(q.Trim());
-            var services = await db.Services.AsNoTracking().Include(s => s.Hours).OrderBy(s => s.SortOrder).ToListAsync();
-            var procedures = await db.Procedures.AsNoTracking().Include(p => p.Pieces).Include(p => p.Steps)
-                .OrderBy(p => p.SortOrder).ToListAsync();
-
-            var result = new SearchResult(
-                services.Where(s => MatchService(s, query)).Select(s => s.ToDto()).ToList(),
-                procedures.Where(p => MatchProcedure(p, query)).Select(p => p.ToDto()).ToList());
-            return Results.Ok(result);
+            var services = (await LoadServices(db, catalog)).Where(s => MatchService(s, query)).ToList();
+            var procedures = catalog.Catalog.Procedures.Where(p => MatchProcedure(p, query)).ToList();
+            return Results.Ok(new SearchResult(services, procedures));
         });
     }
 }

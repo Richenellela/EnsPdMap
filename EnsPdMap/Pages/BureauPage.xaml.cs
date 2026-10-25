@@ -30,6 +30,12 @@ public partial class BureauPage : ContentPage
         InitializeComponent();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        PageFx.FadeIn(this);
+    }
+
     void Load()
     {
         TitleLabel.Text = _s.SheetTitle;
@@ -51,12 +57,41 @@ public partial class BureauPage : ContentPage
         {
             QueueBox.BackgroundColor = Pal.RedSoft;
             QueueLabel.TextColor = Pal.Red;
+            QueueLabel.Text = "Fermé · " + _s.NextOpening;
             ClosesLabel.Text = "Fermé";
             ClosesLabel.TextColor = Pal.Red;
         }
+        CrowdCard.IsVisible = open;
 
         BuildHours();
         BuildContacts();
+        BuildCrowdButtons();
+    }
+
+    void BuildCrowdButtons()
+    {
+        CrowdButtons.Children.Clear();
+        foreach (var level in new[] { "Faible", "Modérée", "Forte" })
+        {
+            string value = level;
+            CrowdButtons.Children.Add(Ui.Chip(level, level == _s.Crowd, () => { _ = ReportAsync(value); }));
+        }
+    }
+
+    async Task ReportAsync(string level)
+    {
+        var result = await ApiClient.ReportCrowdAsync(_s.Id, level);
+        if (result.Ok)
+        {
+            await ApiClient.SyncCatalogAsync();
+            _s = Data.GetService(_s.Id);
+            Load();
+            await DisplayAlert("Merci", "Votre signalement a été pris en compte : il aide les autres étudiants.", "OK");
+        }
+        else
+        {
+            await DisplayAlert("Signalement impossible", result.NetworkError ? "Serveur injoignable." : result.Message, "OK");
+        }
     }
 
     void BuildHours()
@@ -64,9 +99,9 @@ public partial class BureauPage : ContentPage
         HoursList.Children.Clear();
         for (int i = 0; i < _s.Hours.Count; i++)
         {
-            string day = _s.Hours[i][0];
-            string time = _s.Hours[i][1];
-            bool today = i == 0;
+            string day = _s.Hours[i].Day;
+            string time = _s.Hours[i].Time;
+            bool today = _s.Hours[i].Dow.Contains((int)DateTime.Now.DayOfWeek);
             bool closed = time == "Fermé";
 
             var left = new HorizontalStackLayout { Spacing = 10, VerticalOptions = LayoutOptions.Center };
@@ -173,6 +208,6 @@ public partial class BureauPage : ContentPage
     async void OnRoute(object sender, TappedEventArgs e)
     {
         AppState.PlanTarget = _s.Id;
-        await Nav.GoAsync("//plan");
+        await Nav.GoAsync("//main/plan");
     }
 }

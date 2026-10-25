@@ -4,6 +4,7 @@
              xmlns:c="clr-namespace:EnsPdMap.Controls"
              x:Class="EnsPdMap.Pages.AnnuairePage"
              Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
              BackgroundColor="{StaticResource Bg}">
 
     <Grid RowDefinitions="*,Auto">
@@ -23,7 +24,7 @@
 
                 <HorizontalStackLayout Spacing="8" Margin="0,8,0,0">
                     <c:Icon Glyph="leaf" IconColor="{StaticResource Green}" Size="18" VerticalOptions="Center" />
-                    <Label Text="24 services disponibles hors ligne" FontSize="15" TextColor="{StaticResource Muted}"
+                    <Label x:Name="OfflineLabel" FontSize="15" TextColor="{StaticResource Muted}"
                            VerticalOptions="Center" />
                 </HorizontalStackLayout>
 

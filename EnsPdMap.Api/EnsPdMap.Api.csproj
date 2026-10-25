@@ -12,4 +12,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Catalogue unique (services, démarches, campus), partagé avec l'application mobile -->
+    <None Include="..\catalogue\catalogue.json" Link="catalogue.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

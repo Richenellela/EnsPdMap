@@ -9,7 +9,7 @@ namespace EnsPdMap.Controls;
 public class BottomNav : ContentView
 {
     public static readonly BindableProperty ActiveProperty =
-        BindableProperty.Create(nameof(Active), typeof(string), typeof(BottomNav), "accueil",
+        BindableProperty.Create(nameof(Active), typeof(string), typeof(BottomNav), "",
             propertyChanged: OnActiveChanged);
 
     public string Active
@@ -21,11 +21,6 @@ public class BottomNav : ContentView
     static void OnActiveChanged(BindableObject b, object oldValue, object newValue)
     {
         ((BottomNav)b).Build();
-    }
-
-    public BottomNav()
-    {
-        Build();
     }
 
     void Build()
@@ -75,7 +70,7 @@ public class BottomNav : ContentView
             {
                 Command = new Command(async () =>
                 {
-                    if (key != Active) await Nav.GoAsync("//" + key);
+                    if (key != Active) await Nav.GoAsync("//main/" + key);
                 })
             });
             grid.Add(cell, i, 0);

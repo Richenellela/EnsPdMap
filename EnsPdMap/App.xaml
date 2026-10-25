@@ -18,6 +18,9 @@
             <Color x:Key="Red">#B42318</Color>
             <Color x:Key="RedSoft">#FBEDEC</Color>
             <Color x:Key="MapBg">#EDF2F6</Color>
+            <Color x:Key="Block">#CAD6E2</Color>
+            <Color x:Key="BlockLine">#9AA9BC</Color>
+            <Color x:Key="Park">#DDEBDD</Color>
 
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource Ink}" />

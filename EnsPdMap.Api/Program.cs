@@ -17,6 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default") ?? "Data Source=enspdmap.db"));
 
 builder.Services.AddSingleton<TokenService>();
+builder.Services.AddSingleton<CatalogService>();
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -46,7 +47,6 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
-    DbSeeder.Seed(db);
 }
 
 app.UseCors();
@@ -55,5 +55,6 @@ app.UseAuthorization();
 
 app.MapCatalogEndpoints();
 app.MapAuthEndpoints();
+app.MapStudentEndpoints();
 
 app.Run();

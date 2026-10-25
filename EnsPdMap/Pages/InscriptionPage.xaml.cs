@@ -164,7 +164,7 @@ public partial class InscriptionPage : ContentPage
             {
                 await ApiClient.SyncCatalogAsync();
                 await DisplayAlert("Compte créé", "Bienvenue sur EnsPdMap, " + AppState.FirstName + " !", "Continuer");
-                await Nav.GoAsync("//accueil");
+                await Nav.GoAsync("//main/accueil");
                 return;
             }
 
@@ -176,7 +176,7 @@ public partial class InscriptionPage : ContentPage
                 if (offline)
                 {
                     AppState.Register(name, _filiere, _niveau);
-                    await Nav.GoAsync("//accueil");
+                    await Nav.GoAsync("//main/accueil");
                 }
                 return;
             }

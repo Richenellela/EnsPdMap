@@ -1,0 +1,700 @@
+{
+ "version": 4,
+ "calibration": null,
+ "services": [
+  {
+   "id": "sco",
+   "code": "SCO",
+   "name": "Scolarité ENSPD",
+   "shortName": "Scolarité",
+   "sheetTitle": "Scolarité · Porte 104",
+   "description": "Attestations, relevés, inscriptions",
+   "category": "Scolarité",
+   "block": "Bloc A · Direction / Scolarité",
+   "floor": 1,
+   "listLoc": "Bloc A · Porte 104",
+   "place": "Bloc A · 1er étage · Aile Nord",
+   "landmark": "Repère : palier de l'escalier central du Bloc A",
+   "crowd": "Modérée",
+   "manager": "Mme Carole Essomba, Chef de service",
+   "phone": "+237 6 99 12 34 56",
+   "email": "scolarite@univ-douala.cm",
+   "queue": "Estimation : aucun signalement récent",
+   "hours": [
+    {
+     "day": "Lundi – Vendredi",
+     "time": "08:00 – 15:30",
+     "dow": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    },
+    {
+     "day": "Samedi – Dimanche",
+     "time": "Fermé",
+     "dow": [
+      6,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dgi",
+   "code": "DÉP",
+   "name": "Département Génie Informatique",
+   "shortName": "Génie Informatique",
+   "sheetTitle": "Génie Informatique · Bloc C",
+   "description": "Stages, notes, responsables de filière",
+   "category": "Départements",
+   "block": "Bloc C · Génie Informatique",
+   "floor": 1,
+   "listLoc": "Bloc C · 1er étage",
+   "place": "Bloc C · 1er étage",
+   "landmark": "Repère : couloir principal du Bloc C",
+   "crowd": "Faible",
+   "manager": "Chef de département GI",
+   "phone": "+237 6 00 00 00 01",
+   "email": "genie.informatique@univ-douala.cm",
+   "queue": "Estimation : aucun signalement récent",
+   "hours": [
+    {
+     "day": "Lundi – Vendredi",
+     "time": "08:00 – 15:30",
+     "dow": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    },
+    {
+     "day": "Samedi – Dimanche",
+     "time": "Fermé",
+     "dow": [
+      6,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "med",
+   "code": "MÉD",
+   "name": "Centre médical CMSU",
+   "shortName": "CMSU",
+   "sheetTitle": "Centre médical CMSU",
+   "description": "Consultations et certificats médicaux",
+   "category": "Médical",
+   "block": "Bâtiment santé · Entrée Est",
+   "floor": 0,
+   "listLoc": "Entrée Est · Bâtiment santé",
+   "place": "Bâtiment santé · Entrée Est",
+   "landmark": "Repère : après l'entrée Est du campus",
+   "crowd": "Faible",
+   "manager": "Médecin-chef du CMSU",
+   "phone": "+237 6 00 00 00 03",
+   "email": "cmsu@univ-douala.cm",
+   "queue": "Estimation : aucun signalement récent",
+   "hours": [
+    {
+     "day": "Lundi – Vendredi",
+     "time": "08:00 – 15:30",
+     "dow": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    },
+    {
+     "day": "Samedi – Dimanche",
+     "time": "Fermé",
+     "dow": [
+      6,
+      0
+     ]
+    }
+   ]
+  }
+ ],
+ "procedures": [
+  {
+   "id": "certificat",
+   "category": "Scolarité",
+   "title": "Retrait du certificat de scolarité",
+   "overview": "Le certificat de scolarité atteste que vous êtes étudiant à l'ENSPD pour l'année en cours. Il se retire auprès du service de la Scolarité, sur présentation de vos quitus de l'année en cours.",
+   "audience": "Étudiants de l'ENSPD à jour de leurs quitus de l'année en cours.",
+   "where": "Scolarité · Bloc A · 1er étage · Porte 104",
+   "delay": "Variable",
+   "cost": "Gratuit",
+   "office": "P. 104",
+   "badgeTop": "Porte",
+   "badgeMain": "104",
+   "serviceId": "sco",
+   "locateLabel": "Localiser la Scolarité",
+   "pieces": [
+    {
+     "name": "Quitus de l'année en cours",
+     "detail": "Année académique en cours",
+     "how": "Téléchargés sur l'espace étudiant, payés à la banque UBA (voir « Obtention des quitus »)."
+    }
+   ],
+   "steps": [
+    {
+     "title": "Obtenir ses quitus de l'année en cours",
+     "detail": "Les quitus se téléchargent sur votre espace étudiant du site de l'université, puis se paient à la banque UBA. Toute démarche administrative commence par là.",
+     "procedureId": "quitus",
+     "serviceId": "",
+     "duration": "",
+     "tip": "Gardez vos reçus de paiement : ils servent aussi pour le relevé de notes.",
+     "warning": ""
+    },
+    {
+     "title": "Se rendre à la Scolarité",
+     "detail": "Allez au Bloc A, 1er étage, porte 104. Le repère est le palier de l'escalier central du Bloc A.",
+     "serviceId": "sco",
+     "duration": "≈ 2 min depuis l'entrée",
+     "tip": "Ouvrez la fiche du bureau pour vérifier les horaires du jour avant de vous déplacer.",
+     "warning": "La Scolarité est fermée le samedi et le dimanche.",
+     "procedureId": ""
+    },
+    {
+     "title": "Demander le certificat de scolarité",
+     "detail": "Présentez vos quitus de l'année en cours au service de la Scolarité et demandez votre certificat.",
+     "serviceId": "sco",
+     "duration": "",
+     "tip": "Gardez une photocopie de vos quitus avant de les remettre.",
+     "warning": "",
+     "procedureId": ""
+    },
+    {
+     "title": "Retirer le certificat",
+     "detail": "Revenez à la Scolarité retirer votre certificat. Le délai dépend de la disponibilité du directeur de l'université : le lendemain ou dans la semaine qui suit.",
+     "serviceId": "sco",
+     "duration": "1 jour à 1 semaine",
+     "tip": "",
+     "warning": "Le délai n'est pas garanti : ne vous y prenez pas à la dernière minute si un dossier en dépend.",
+     "procedureId": ""
+    }
+   ],
+   "faq": [
+    {
+     "q": "Faut-il payer pour cette démarche ?",
+     "a": "Non. Aucune démarche de l'application n'est payante. Seuls les frais de scolarité se paient, à la banque UBA, hors application."
+    },
+    {
+     "q": "Combien de temps faut-il attendre ?",
+     "a": "Cela dépend de la disponibilité du directeur de l'université : vous pouvez retirer votre document le lendemain ou dans la semaine qui suit."
+    },
+    {
+     "q": "Où se trouve la Scolarité ?",
+     "a": "Bloc A, 1er étage, porte 104. Utilisez le bouton « Voir sur le plan » pour vous y faire guider depuis votre position."
+    },
+    {
+     "q": "La Scolarité est-elle ouverte le week-end ?",
+     "a": "Non, elle est fermée le samedi et le dimanche. Consultez les horaires du jour sur la fiche du bureau avant de vous déplacer."
+    }
+   ]
+  },
+  {
+   "id": "releve",
+   "category": "Scolarité",
+   "title": "Demande de relevé de notes",
+   "overview": "Le relevé de notes se retire à la Scolarité. Pour cette démarche, ce sont les quitus de l'année précédente qui sont exigés, avec les reçus de paiement cachetés et des photocopies certifiées.",
+   "audience": "Étudiants de l'ENSPD souhaitant retirer leur relevé de notes.",
+   "where": "Scolarité · Bloc A · 1er étage · Porte 104",
+   "delay": "Variable",
+   "cost": "Gratuit",
+   "office": "P. 104",
+   "badgeTop": "Porte",
+   "badgeMain": "104",
+   "serviceId": "sco",
+   "locateLabel": "Localiser la Scolarité",
+   "pieces": [
+    {
+     "name": "Quitus de l'année précédente",
+     "detail": "Année académique antérieure",
+     "how": "Ce sont bien les quitus de l'année précédente, pas ceux de l'année en cours."
+    },
+    {
+     "name": "Reçus de paiement",
+     "detail": "À faire cacheter au bureau de la Scolarité",
+     "how": "Délivrés par la banque UBA lors du paiement des frais de scolarité."
+    },
+    {
+     "name": "Photocopies certifiées",
+     "detail": "À faire certifier à la Scolarité",
+     "how": "Photocopiez vos quitus et reçus, puis faites certifier les copies au service de la Scolarité."
+    }
+   ],
+   "steps": [
+    {
+     "title": "Rassembler les quitus de l'année précédente",
+     "detail": "Réunissez vos quitus de l'année précédente et les reçus de paiement correspondants.",
+     "serviceId": "",
+     "duration": "",
+     "tip": "Si vous avez perdu un quitus, il se télécharge de nouveau depuis votre espace étudiant.",
+     "warning": "Pour le relevé de notes, ce sont les quitus de l'année PRÉCÉDENTE qu'il faut présenter (et non ceux de l'année en cours).",
+     "procedureId": "quitus"
+    },
+    {
+     "title": "Faire cacheter les reçus de paiement",
+     "detail": "Présentez vos reçus de paiement au bureau de la Scolarité pour les faire cacheter.",
+     "serviceId": "sco",
+     "duration": "",
+     "tip": "Passez par la Scolarité avant de photocopier : les cachets doivent figurer sur les copies.",
+     "warning": "",
+     "procedureId": ""
+    },
+    {
+     "title": "Photocopier et faire certifier",
+     "detail": "Faites des photocopies des documents, puis faites-les certifier par le service de la Scolarité.",
+     "serviceId": "sco",
+     "duration": "",
+     "tip": "Préparez toutes les photocopies d'un coup pour ne faire la queue qu'une seule fois.",
+     "warning": "",
+     "procedureId": ""
+    },
+    {
+     "title": "Déposer le dossier",
+     "detail": "Déposez votre dossier complet au bureau de la Scolarité, porte 104, 1er étage du Bloc A.",
+     "serviceId": "sco",
+     "duration": "",
+     "tip": "Gardez le récépissé ou une photo du dossier déposé.",
+     "warning": "",
+     "procedureId": ""
+    },
+    {
+     "title": "Retirer le relevé de notes",
+     "detail": "Retirez votre relevé de notes à la Scolarité. Le délai dépend de la disponibilité du directeur : le lendemain ou dans la semaine qui suit.",
+     "serviceId": "sco",
+     "duration": "1 jour à 1 semaine",
+     "tip": "",
+     "warning": "Le délai n'est pas garanti.",
+     "procedureId": ""
+    }
+   ],
+   "faq": [
+    {
+     "q": "Pourquoi les quitus de l'année précédente ?",
+     "a": "C'est la règle appliquée pour le retrait des relevés de notes : on présente les quitus de l'année antérieure, alors que pour les autres démarches ce sont ceux de l'année en cours."
+    },
+    {
+     "q": "Faut-il payer pour cette démarche ?",
+     "a": "Non. Aucune démarche de l'application n'est payante. Seuls les frais de scolarité se paient, à la banque UBA, hors application."
+    },
+    {
+     "q": "Combien de temps faut-il attendre ?",
+     "a": "Cela dépend de la disponibilité du directeur de l'université : vous pouvez retirer votre document le lendemain ou dans la semaine qui suit."
+    },
+    {
+     "q": "La Scolarité est-elle ouverte le week-end ?",
+     "a": "Non, elle est fermée le samedi et le dimanche. Consultez les horaires du jour sur la fiche du bureau avant de vous déplacer."
+    }
+   ]
+  },
+  {
+   "id": "quitus",
+   "category": "Scolarité",
+   "title": "Obtention des quitus",
+   "overview": "Les quitus se téléchargent depuis votre espace étudiant sur le site de l'université. Il y en a trois : le quitus médical, le quitus tranche 1 et le quitus tranche 2. Ils se paient à la banque UBA, avec 2 exemplaires de chacun.",
+   "audience": "Tout étudiant de l'ENSPD, chaque année.",
+   "where": "En ligne (espace étudiant) puis banque UBA",
+   "delay": "",
+   "cost": "Gratuit",
+   "office": "En ligne",
+   "badgeTop": "En",
+   "badgeMain": "ligne",
+   "serviceId": "",
+   "locateLabel": "Télécharger la fiche",
+   "pieces": [
+    {
+     "name": "Quitus médical",
+     "detail": "2 exemplaires",
+     "how": "Téléchargé sur l'espace étudiant, imprimé en 2 exemplaires."
+    },
+    {
+     "name": "Quitus tranche 1",
+     "detail": "2 exemplaires",
+     "how": "Téléchargé sur l'espace étudiant, imprimé en 2 exemplaires."
+    },
+    {
+     "name": "Quitus tranche 2",
+     "detail": "2 exemplaires",
+     "how": "Téléchargé sur l'espace étudiant, imprimé en 2 exemplaires."
+    }
+   ],
+   "steps": [
+    {
+     "title": "Se connecter à son espace étudiant",
+     "detail": "Rendez-vous sur le site de l'université et connectez-vous à votre compte, dans votre espace étudiant.",
+     "serviceId": "",
+     "duration": "≈ 5 min",
+     "tip": "Ayez votre matricule et votre mot de passe sous la main.",
+     "warning": "",
+     "procedureId": ""
+    },
+    {
+     "title": "Télécharger les 3 quitus",
+     "detail": "Téléchargez les trois quitus : médical, tranche 1 et tranche 2.",
+     "serviceId": "",
+     "duration": "",
+     "tip": "Enregistrez-les sur votre téléphone pour ne pas dépendre du réseau le jour du paiement.",
+     "warning": "",
+     "procedureId": ""
+    },
+    {
+     "title": "Imprimer 2 exemplaires de chaque",
+     "detail": "Imprimez deux exemplaires de chacun des trois quitus. Munissez-vous aussi d'une photocopie.",
+     "serviceId": "",
+     "duration": "",
+     "tip": "Vérifiez que les 3 quitus sont bien en double avant de partir à la banque.",
+     "warning": "",
+     "procedureId": ""
+    },
+    {
+     "title": "Payer à la banque UBA",
+     "detail": "Rendez-vous à la banque UBA avec vos quitus pour effectuer le paiement des frais de scolarité.",
+     "serviceId": "",
+     "duration": "",
+     "tip": "",
+     "warning": "L'UBA est la seule banque où se paient les frais de scolarité. L'application ne gère aucun paiement.",
+     "procedureId": ""
+    },
+    {
+     "title": "Conserver les reçus de paiement",
+     "detail": "Gardez précieusement vos reçus de paiement : ils vous seront demandés pour d'autres démarches.",
+     "serviceId": "",
+     "duration": "",
+     "tip": "Faites-en une photo : pour le relevé de notes, les reçus doivent être cachetés à la Scolarité.",
+     "warning": "",
+     "procedureId": ""
+    }
+   ],
+   "faq": [
+    {
+     "q": "Quels sont les trois quitus ?",
+     "a": "Le quitus médical, le quitus tranche 1 et le quitus tranche 2."
+    },
+    {
+     "q": "Où se fait le paiement ?",
+     "a": "À la banque UBA uniquement. Le paiement se fait hors de l'application, qui ne gère ni caisse ni paiement."
+    },
+    {
+     "q": "Combien d'exemplaires faut-il ?",
+     "a": "Deux exemplaires de chacun des trois quitus."
+    },
+    {
+     "q": "Quels quitus pour quelle démarche ?",
+     "a": "Les quitus de l'année en cours pour toutes les démarches administratives ; ceux de l'année précédente uniquement pour le retrait du relevé de notes."
+    }
+   ]
+  },
+  {
+   "id": "demande_stage",
+   "category": "Scolarité",
+   "title": "Demande de stage",
+   "overview": "Avant la mise en stage, l'étudiant prépare et dépose sa demande de stage au service de la Scolarité. Les quitus de l'année en cours sont exigés, comme pour toute démarche administrative.",
+   "audience": "Étudiants de l'ENSPD qui cherchent un stage.",
+   "where": "Scolarité · Bloc A · 1er étage (salles à repérer par leur intitulé sur la porte)",
+   "delay": "Variable",
+   "cost": "Gratuit",
+   "office": "Étage 1",
+   "badgeTop": "1er",
+   "badgeMain": "étage",
+   "serviceId": "sco",
+   "locateLabel": "Localiser la Scolarité",
+   "pieces": [
+    {
+     "name": "Quitus de l'année en cours",
+     "detail": "Année académique en cours",
+     "how": "Téléchargés sur l'espace étudiant, payés à la banque UBA."
+    },
+    {
+     "name": "Demande de stage",
+     "detail": "Rédigée par l'étudiant",
+     "how": "Indiquez l'organisme visé, la période et la durée souhaitées."
+    }
+   ],
+   "steps": [
+    {
+     "title": "Obtenir ses quitus de l'année en cours",
+     "detail": "Les quitus se téléchargent sur votre espace étudiant du site de l'université, puis se paient à la banque UBA. Toute démarche administrative commence par là.",
+     "procedureId": "quitus",
+     "serviceId": "",
+     "duration": "",
+     "tip": "Gardez vos reçus de paiement : ils servent aussi pour le relevé de notes.",
+     "warning": ""
+    },
+    {
+     "title": "Préparer sa demande de stage",
+     "detail": "Rédigez votre demande : organisme ou entreprise visé, période et durée du stage souhaitées.",
+     "serviceId": "",
+     "duration": "",
+     "tip": "Relisez-la et gardez-en une copie.",
+     "warning": "",
+     "procedureId": ""
+    },
+    {
+     "title": "Déposer la demande à la Scolarité",
+     "detail": "Allez au 1er étage, là où se trouvent les salles de la Scolarité. Chaque salle porte un intitulé sur sa porte : repérez celle qui traite les stages.",
+     "serviceId": "sco",
+     "duration": "",
+     "tip": "En cas de doute, demandez à l'accueil de la Scolarité (porte 104) de vous orienter.",
+     "warning": "La Scolarité est fermée le week-end.",
+     "procedureId": ""
+    },
+    {
+     "title": "Attendre le traitement",
+     "detail": "Le délai dépend de la disponibilité du directeur de l'université : le lendemain ou dans la semaine qui suit.",
+     "serviceId": "sco",
+     "duration": "1 jour à 1 semaine",
+     "tip": "",
+     "warning": "",
+     "procedureId": ""
+    }
+   ],
+   "faq": [
+    {
+     "q": "Faut-il payer pour cette démarche ?",
+     "a": "Non. Aucune démarche de l'application n'est payante. Seuls les frais de scolarité se paient, à la banque UBA, hors application."
+    },
+    {
+     "q": "Combien de temps faut-il attendre ?",
+     "a": "Cela dépend de la disponibilité du directeur de l'université : vous pouvez retirer votre document le lendemain ou dans la semaine qui suit."
+    },
+    {
+     "q": "Où déposer la demande ?",
+     "a": "Au 1er étage, dans les salles de la Scolarité. Chaque salle a un intitulé sur sa porte."
+    }
+   ]
+  },
+  {
+   "id": "mise_stage",
+   "category": "Scolarité",
+   "title": "Mise en stage",
+   "overview": "La lettre de mise en stage se dépose dans les salles de la Scolarité, au 1er étage, avec les quitus de l'année en cours.",
+   "audience": "Étudiants de l'ENSPD dont le stage est trouvé.",
+   "where": "Scolarité · Bloc A · 1er étage (salles à repérer par leur intitulé sur la porte)",
+   "delay": "Variable",
+   "cost": "Gratuit",
+   "office": "Étage 1",
+   "badgeTop": "1er",
+   "badgeMain": "étage",
+   "serviceId": "sco",
+   "locateLabel": "Localiser la Scolarité",
+   "pieces": [
+    {
+     "name": "Quitus de l'année en cours",
+     "detail": "Année académique en cours",
+     "how": "Téléchargés sur l'espace étudiant, payés à la banque UBA."
+    },
+    {
+     "name": "Lettre de mise en stage",
+     "detail": "À déposer",
+     "how": "Document à remettre à la Scolarité."
+    }
+   ],
+   "steps": [
+    {
+     "title": "Obtenir ses quitus de l'année en cours",
+     "detail": "Les quitus se téléchargent sur votre espace étudiant du site de l'université, puis se paient à la banque UBA. Toute démarche administrative commence par là.",
+     "procedureId": "quitus",
+     "serviceId": "",
+     "duration": "",
+     "tip": "Gardez vos reçus de paiement : ils servent aussi pour le relevé de notes.",
+     "warning": ""
+    },
+    {
+     "title": "Déposer la lettre de mise en stage",
+     "detail": "Au 1er étage, repérez la salle de la Scolarité concernée grâce à l'intitulé sur sa porte et déposez-y votre lettre de mise en stage avec vos quitus.",
+     "serviceId": "sco",
+     "duration": "",
+     "tip": "Faites une photocopie de la lettre avant de la déposer.",
+     "warning": "La Scolarité est fermée le samedi et le dimanche.",
+     "procedureId": ""
+    },
+    {
+     "title": "Retirer le document",
+     "detail": "Le délai dépend de la disponibilité du directeur de l'université : le lendemain ou dans la semaine qui suit.",
+     "serviceId": "sco",
+     "duration": "1 jour à 1 semaine",
+     "tip": "",
+     "warning": "Prévoyez large par rapport à la date de début de votre stage.",
+     "procedureId": ""
+    }
+   ],
+   "faq": [
+    {
+     "q": "Faut-il payer pour cette démarche ?",
+     "a": "Non. Aucune démarche de l'application n'est payante. Seuls les frais de scolarité se paient, à la banque UBA, hors application."
+    },
+    {
+     "q": "Combien de temps faut-il attendre ?",
+     "a": "Cela dépend de la disponibilité du directeur de l'université : vous pouvez retirer votre document le lendemain ou dans la semaine qui suit."
+    },
+    {
+     "q": "Quels documents apporter ?",
+     "a": "Vos quitus de l'année en cours et la lettre de mise en stage."
+    }
+   ]
+  }
+ ],
+ "campus": {
+  "name": "Campus PK17 · ENSPD",
+  "note": "Plan schématique à étalonner sur le terrain (Hors ligne > Étalonner le plan).",
+  "entrance": "n_entree",
+  "places": [
+   {
+    "id": "green_n",
+    "name": "",
+    "kind": "green",
+    "x": -48,
+    "y": 142,
+    "w": 70,
+    "h": 22,
+    "angle": 0,
+    "serviceId": "",
+    "entranceNode": ""
+   },
+   {
+    "id": "green_e",
+    "name": "",
+    "kind": "green",
+    "x": 100,
+    "y": -5,
+    "w": 50,
+    "h": 24,
+    "angle": 0,
+    "serviceId": "",
+    "entranceNode": ""
+   },
+   {
+    "id": "bloc_adm",
+    "name": "Bloc administratif",
+    "kind": "building",
+    "x": -55,
+    "y": 45,
+    "w": 44,
+    "h": 26,
+    "angle": 0,
+    "serviceId": "",
+    "entranceNode": "e_adm"
+   },
+   {
+    "id": "bloc_a",
+    "name": "Bloc A",
+    "kind": "building",
+    "x": -55,
+    "y": 95,
+    "w": 50,
+    "h": 28,
+    "angle": 0,
+    "serviceId": "sco",
+    "entranceNode": "e_a"
+   },
+   {
+    "id": "bloc_c",
+    "name": "Bloc C",
+    "kind": "building",
+    "x": 55,
+    "y": 120,
+    "w": 56,
+    "h": 30,
+    "angle": 0,
+    "serviceId": "dgi",
+    "entranceNode": "e_c"
+   },
+   {
+    "id": "sante",
+    "name": "Bât. santé",
+    "kind": "building",
+    "x": 95,
+    "y": 45,
+    "w": 30,
+    "h": 22,
+    "angle": 0,
+    "serviceId": "med",
+    "entranceNode": "e_s"
+   }
+  ],
+  "nodes": [
+   {
+    "id": "n_entree",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "id": "j1",
+    "x": 0,
+    "y": 45
+   },
+   {
+    "id": "j2",
+    "x": 0,
+    "y": 95
+   },
+   {
+    "id": "j3",
+    "x": 0,
+    "y": 120
+   },
+   {
+    "id": "e_a",
+    "x": -30,
+    "y": 95
+   },
+   {
+    "id": "e_c",
+    "x": 27,
+    "y": 120
+   },
+   {
+    "id": "e_s",
+    "x": 80,
+    "y": 45
+   },
+   {
+    "id": "e_adm",
+    "x": -33,
+    "y": 45
+   }
+  ],
+  "edges": [
+   {
+    "a": "n_entree",
+    "b": "j1"
+   },
+   {
+    "a": "j1",
+    "b": "j2"
+   },
+   {
+    "a": "j2",
+    "b": "j3"
+   },
+   {
+    "a": "j2",
+    "b": "e_a"
+   },
+   {
+    "a": "j3",
+    "b": "e_c"
+   },
+   {
+    "a": "j1",
+    "b": "e_s"
+   },
+   {
+    "a": "j1",
+    "b": "e_adm"
+   }
+  ]
+ }
+}

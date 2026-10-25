@@ -20,7 +20,11 @@
   <ItemGroup>
     <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#0A2342" />
     <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#0A2342" BaseSize="128,128" />
-    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\catalogue\catalogue.json" LogicalName="catalogue.json" Link="catalogue.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
   </ItemGroup>
 
 </Project>

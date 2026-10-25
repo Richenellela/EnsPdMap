@@ -8,25 +8,24 @@ namespace EnsPdMap.Helpers;
 /// <summary>Téléchargement des fiches PDF (fournies avec l'application, donc disponibles hors ligne).</summary>
 public static class Fiches
 {
-    public static async Task<string> SaveAsync(string fileName)
+    /// <summary>Crée la fiche PDF de la démarche à partir du catalogue actuel (donc toujours à jour, même hors ligne).</summary>
+    public static Task<string> SaveAsync(Procedure p)
     {
-        string dir = System.IO.Path.Combine(FileSystem.AppDataDirectory, "fiches");
-        Directory.CreateDirectory(dir);
-        string target = System.IO.Path.Combine(dir, fileName);
-
-        using (var input = await FileSystem.OpenAppPackageFileAsync(fileName))
-        using (var output = File.Create(target))
+        return Task.Run(() =>
         {
-            await input.CopyToAsync(output);
-        }
-        return target;
+            string dir = System.IO.Path.Combine(FileSystem.AppDataDirectory, "fiches");
+            Directory.CreateDirectory(dir);
+            string target = System.IO.Path.Combine(dir, p.FicheFile);
+            FichePdf.Create(p, target);
+            return target;
+        });
     }
 
     public static async Task DownloadAsync(Page page, Procedure p)
     {
         try
         {
-            string path = await SaveAsync(p.FicheFile);
+            string path = await SaveAsync(p);
             string open = "Ouvrir la fiche";
             string share = "Partager / enregistrer ailleurs";
             string choice = await page.DisplayActionSheet("Fiche téléchargée", "Fermer", null, open, share);

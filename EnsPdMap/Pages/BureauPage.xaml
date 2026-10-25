@@ -53,6 +53,16 @@
                         </HorizontalStackLayout>
                     </Border>
 
+                    <!-- Affluence signalée par les étudiants -->
+                    <Border x:Name="CrowdCard" Style="{StaticResource Card}" Margin="0,12,0,0" Padding="16,14">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Affluence en ce moment" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Vous êtes sur place ? Signalez l'affluence que vous voyez pour aider les autres étudiants."
+                                   FontSize="13" TextColor="{StaticResource Muted}" />
+                            <HorizontalStackLayout x:Name="CrowdButtons" Spacing="8" />
+                        </VerticalStackLayout>
+                    </Border>
+
                     <!-- Actions -->
                     <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12" Margin="0,16,0,0">
                         <Border BackgroundColor="{StaticResource Navy}" StrokeThickness="0" StrokeShape="RoundRectangle 16"
@@ -107,11 +117,8 @@
         </ScrollView>
 
         <!-- Bouton retour -->
-        <Border WidthRequest="52" HeightRequest="52" StrokeShape="RoundRectangle 26" StrokeThickness="0"
-                BackgroundColor="White" HorizontalOptions="Start" VerticalOptions="Start" Margin="16,16,0,0">
-            <Border.Shadow>
-                <Shadow Brush="Black" Opacity="0.2" Radius="8" Offset="0,2" />
-            </Border.Shadow>
+        <Border WidthRequest="52" HeightRequest="52" StrokeShape="RoundRectangle 26"
+                BackgroundColor="White" Stroke="{StaticResource Line}" StrokeThickness="1.5" HorizontalOptions="Start" VerticalOptions="Start" Margin="16,16,0,0">
             <c:Icon Glyph="back" IconColor="{StaticResource Ink}" Size="22" />
             <Border.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnBack" />

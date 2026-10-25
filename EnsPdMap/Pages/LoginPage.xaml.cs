@@ -16,6 +16,8 @@ public partial class LoginPage : ContentPage
     {
         base.OnAppearing();
         string log = CrashLog.ReadAndClear();
+        if (!string.IsNullOrEmpty(Data.LoadError))
+            log = "Catalogue : " + Data.LoadError + "\n" + log;
         if (!string.IsNullOrEmpty(log))
             await DisplayAlert("Dernière erreur détectée", log.Length > 1500 ? log.Substring(0, 1500) : log, "OK");
     }
@@ -64,7 +66,7 @@ public partial class LoginPage : ContentPage
             if (result.Ok)
             {
                 await ApiClient.SyncCatalogAsync();
-                await Nav.GoAsync("//accueil");
+                await Nav.GoAsync("//main/accueil");
                 return;
             }
 
@@ -76,7 +78,7 @@ public partial class LoginPage : ContentPage
                 if (offline)
                 {
                     AppState.SignInStudent();
-                    await Nav.GoAsync("//accueil");
+                    await Nav.GoAsync("//main/accueil");
                 }
                 return;
             }
@@ -103,7 +105,7 @@ public partial class LoginPage : ContentPage
         {
             AppState.SignInVisitor();
             await ApiClient.SyncCatalogAsync(3);
-            await Nav.GoAsync("//accueil");
+            await Nav.GoAsync("//main/accueil");
         }
         finally
         {

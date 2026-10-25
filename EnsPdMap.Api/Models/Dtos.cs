@@ -8,21 +8,18 @@ public record StudentDto(int Id, string FullName, string Matricule, string Email
 
 public record AuthResponse(string Token, DateTime ExpiresAt, StudentDto Student);
 
-public record HourDto(string Day, string Time);
+public record ProgressDto(string ProcedureId, List<int> ReadyPieces, List<int> DoneSteps, bool Bookmarked);
 
-public record ServiceDto(
-    string Id, string Code, string Name, string ShortName, string SheetTitle, string Description,
-    string Category, string Block, int Floor, string FloorName, string ListLoc, string Place,
-    string Landmark, string Status, string Crowd, string ClosesAt, string Manager, string Phone,
-    string Email, string Queue, int Distance, int Minutes, List<HourDto> Hours);
+public record ProgressUpdate(List<int>? ReadyPieces, List<int>? DoneSteps, bool Bookmarked);
 
-public record PieceDto(string Name, string Detail);
+public record CrowdRequest(string Level);
 
-public record StepDto(string Title, string Detail);
+public record SearchResult(List<ServiceInfo> Services, List<ProcedureInfo> Procedures);
 
-public record ProcedureDto(
-    string Id, string Category, string Title, string Delay, string Cost, string Office,
-    string DoorNumber, string BadgeTop, string BadgeMain, string ServiceId, string FormSize, string FicheFile, string LocateLabel,
-    List<PieceDto> Pieces, List<StepDto> Steps);
-
-public record SearchResult(List<ServiceDto> Services, List<ProcedureDto> Procedures);
+public static class StudentMapper
+{
+    public static StudentDto ToDto(this Student s)
+    {
+        return new StudentDto(s.Id, s.FullName, s.Matricule, s.Email, s.Filiere, s.Niveau);
+    }
+}

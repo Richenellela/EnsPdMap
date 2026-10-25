@@ -10,22 +10,15 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Student> Students => Set<Student>();
-    public DbSet<ServiceEntity> Services => Set<ServiceEntity>();
-    public DbSet<HourEntity> Hours => Set<HourEntity>();
-    public DbSet<ProcedureEntity> Procedures => Set<ProcedureEntity>();
-    public DbSet<PieceEntity> Pieces => Set<PieceEntity>();
-    public DbSet<StepEntity> Steps => Set<StepEntity>();
+    public DbSet<StudentProgress> Progress => Set<StudentProgress>();
+    public DbSet<CrowdReport> CrowdReports => Set<CrowdReport>();
+    public DbSet<CampusCalibration> Calibrations => Set<CampusCalibration>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {
         b.Entity<Student>().HasIndex(s => s.Matricule).IsUnique();
         b.Entity<Student>().HasIndex(s => s.Email).IsUnique();
-
-        b.Entity<ServiceEntity>().HasKey(s => s.Id);
-        b.Entity<ServiceEntity>().HasMany(s => s.Hours).WithOne().HasForeignKey(h => h.ServiceId);
-
-        b.Entity<ProcedureEntity>().HasKey(p => p.Id);
-        b.Entity<ProcedureEntity>().HasMany(p => p.Pieces).WithOne().HasForeignKey(x => x.ProcedureId);
-        b.Entity<ProcedureEntity>().HasMany(p => p.Steps).WithOne().HasForeignKey(x => x.ProcedureId);
+        b.Entity<StudentProgress>().HasIndex(p => new { p.StudentId, p.ProcedureId }).IsUnique();
+        b.Entity<CrowdReport>().HasIndex(r => new { r.ServiceId, r.CreatedAt });
     }
 }

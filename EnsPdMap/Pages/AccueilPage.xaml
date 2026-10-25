@@ -4,6 +4,7 @@
              xmlns:c="clr-namespace:EnsPdMap.Controls"
              x:Class="EnsPdMap.Pages.AccueilPage"
              Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
              BackgroundColor="{StaticResource Bg}">
 
     <Grid RowDefinitions="*,Auto">
@@ -79,11 +80,11 @@
                     <VerticalStackLayout Spacing="0">
                         <Grid ColumnDefinitions="*,Auto">
                             <Label Text="Démarches de rentrée" TextColor="White" FontSize="18" FontAttributes="Bold" />
-                            <Label Grid.Column="1" Text="2 / 5" TextColor="{StaticResource Gold}" FontSize="18"
+                            <Label x:Name="RentreeCount" Grid.Column="1" TextColor="{StaticResource Gold}" FontSize="18"
                                    FontAttributes="Bold" />
                         </Grid>
-                        <c:Bar Progress="0.4" FillColor="{StaticResource Gold}" TrackColor="#3A4C66" Margin="0,14,0,10" />
-                        <Label Text="Prochaine étape : retrait de l'attestation" TextColor="#B8C2D3" FontSize="14" />
+                        <c:Bar x:Name="RentreeBar" Progress="0" FillColor="{StaticResource Gold}" TrackColor="#3A4C66" Margin="0,14,0,10" />
+                        <Label x:Name="RentreeNext" TextColor="#B8C2D3" FontSize="14" />
                     </VerticalStackLayout>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnProgressCard" />

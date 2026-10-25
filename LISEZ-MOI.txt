@@ -1,30 +1,52 @@
 EnsPdMap
 
+CATALOGUE UNIQUE : catalogue\catalogue.json
+  Contient les services, les demarches (etapes, astuces, FAQ) et le plan du campus.
+  Il est integre a l'application ET charge par l'API. Pour modifier un contenu :
+  editer ce fichier, augmenter "version", relancer l'API et recompiler l'appli.
+
 APPLICATION MOBILE (.NET MAUI, Android)
 1. Double-clic sur EnsPdMap.sln dans Visual Studio 2022 (17.12 ou plus)
 2. Choisir "Android Emulator" ou le telephone (debogage USB), puis F5
-   ou : double-clic sur lancer-EnsPdMap.bat, option 4.
-- FLUIDITE : le mode Debug est lent par nature. Pour juger la vitesse reelle,
-  passer Visual Studio en "Release" et lancer sans debogage (Ctrl+F5),
-  ou utiliser lancer-EnsPdMap.bat option 6.
-- Si l'appli rencontre une erreur, elle affiche un message au lieu de se fermer ;
-  une erreur fatale est affichee au demarrage suivant (ecran de connexion).
-- Fiche du plan : tirer vers le haut, glisser la poignee, ou toucher la fleche.
-- Fiches PDF : bouton "Fiche PDF de la demarche" (disponibles hors ligne).
+   ou : lancer-EnsPdMap.bat, option 4.
+- Vitesse : le mode Debug est lent. Release + Ctrl+F5, ou lancer-EnsPdMap.bat option 6.
+- Si l'appli rencontre une erreur, elle affiche un message ; une erreur fatale est
+  affichee au demarrage suivant (ecran de connexion).
 
-API (ASP.NET Core 9 + SQLite + JWT)
-- run-api.bat (port 5080). Tests : EnsPdMap.Api\EnsPdMap.Api.http
-- Emulateur Android : l'appli joint http://10.0.2.2:5080 (par defaut)
-- Telephone reel : lancer autoriser-pare-feu.bat (administrateur), puis dans l'appli
-  onglet "Hors ligne" > Serveur (API) saisir http://IP-DU-PC:5080 et "Tester".
-- Sans API, l'appli propose le mode hors connexion.
-- Le catalogue (services, demarches) est defini dans EnsPdMap.Api\Data\DbSeeder.cs
-  et recree a chaque demarrage ; les comptes etudiants sont conserves.
+LOCALISATION ET PLAN
+- Le plan est schematique : il faut le CALER une fois sur le terrain.
+  Methode rapide : onglet Plan > toucher la pastille GPS > "Je suis ici" > toucher
+  sur la carte l'endroit ou vous etes. Marchez 20 m et recommencez pour regler l'orientation.
+  Methode guidee : Hors ligne > Etalonner le plan (entree principale, puis devant le Bloc A).
+- Ensuite : point bleu = votre position, itineraire depuis votre position,
+  direction (nord-est, devant vous...), instructions pas a pas.
+- Sans GPS : Hors ligne > Mode demo, puis toucher la carte pour se placer.
+- Pour corriger la forme reelle du campus : editer "campus" dans catalogue.json
+  (batiments : x, y, w, h, angle en metres ; allees : nodes + edges).
 
-Endpoints
-  GET  /api/health
-  GET  /api/services?category=&q=        GET /api/services/{id}
-  GET  /api/procedures                   GET /api/procedures/{id}
-  GET  /api/search?q=
-  POST /api/auth/register                POST /api/auth/login
-  GET  /api/me                           (JWT requis)
+API (ASP.NET Core 9 + SQLite + JWT) : run-api.bat (port 5080)
+- Tests : EnsPdMap.Api\EnsPdMap.Api.http
+- Emulateur : l'appli joint http://10.0.2.2:5080 par defaut.
+- Telephone : autoriser-pare-feu.bat (administrateur), puis dans l'appli
+  Hors ligne > Serveur (API) : http://IP-DU-PC:5080 > "Tester et synchroniser".
+- Sans Wi-Fi : brancher le telephone en USB (debogage actif) et lancer connecter-usb.bat,
+  puis saisir http://localhost:5080 dans Hors ligne > Serveur.
+- Hors de chez vous : heberger l'API sur un serveur (URL publique en HTTPS) et la mettre
+  dans l'appli ; elle marchera alors en donnees mobiles.
+- Base : enspdmap-v2.db (comptes, avancement, affluence, etalonnage ; creee automatiquement).
+  Le catalogue (services, demarches, plan) reste dans catalogue\catalogue.json, pas en base.
+
+POSITION EXACTE DU CAMPUS
+- Renseigner "calibration" dans catalogue.json (une seule fois pour tous les etudiants) :
+  {"originLat": ..., "originLon": ..., "anchorX": 0, "anchorY": 0, "rotationDeg": 0, "scale": 1}
+  originLat/originLon = coordonnees GPS de l'entree principale (Google Maps : appui long
+  sur l'entree > les coordonnees s'affichent). Augmenter "version" ensuite.
+
+Ce que l'API fait vraiment
+  GET  /api/catalogue                 tout le catalogue (+ affluence du moment + etalonnage partage)
+  GET  /api/services  /api/procedures  /api/campus  /api/search?q=
+  POST /api/auth/register  /api/auth/login   GET /api/me
+  GET  /api/me/progress                avancement des demarches du compte
+  PUT  /api/me/progress/{demarche}     pieces cochees, etapes faites, favori
+  POST /api/services/{id}/crowd        signaler l'affluence (valable 45 min)
+  POST /api/campus/calibration         partager l'etalonnage du plan

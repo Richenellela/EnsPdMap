@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:EnsPdMap.Controls"
+             x:Class="EnsPdMap.Pages.SplashPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource Navy}">
+
+    <Grid>
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="16">
+            <Border x:Name="Logo" WidthRequest="104" HeightRequest="104" BackgroundColor="White" StrokeThickness="0"
+                    StrokeShape="RoundRectangle 28" HorizontalOptions="Center" Opacity="0" Scale="0.5">
+                <c:Icon Glyph="pin" IconColor="{StaticResource Gold}" Size="56" />
+            </Border>
+            <Label x:Name="AppName" Text="EnsPdMap" TextColor="White" FontSize="32" FontAttributes="Bold"
+                   HorizontalOptions="Center" Opacity="0" />
+            <Label x:Name="Tagline" Text="Le bon bureau, du premier coup." TextColor="#B8C2D3" FontSize="15"
+                   HorizontalOptions="Center" Opacity="0" />
+            <HorizontalStackLayout x:Name="Dots" Spacing="8" HorizontalOptions="Center" Margin="0,14,0,0" Opacity="0">
+                <BoxView x:Name="Dot1" WidthRequest="8" HeightRequest="8" CornerRadius="4" Color="{StaticResource Gold}" />
+                <BoxView x:Name="Dot2" WidthRequest="8" HeightRequest="8" CornerRadius="4" Color="{StaticResource Gold}" Opacity="0.4" />
+                <BoxView x:Name="Dot3" WidthRequest="8" HeightRequest="8" CornerRadius="4" Color="{StaticResource Gold}" Opacity="0.4" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
